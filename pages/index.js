@@ -5,7 +5,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Final Project</title>
-        <meta name="description" content="UpLeveled final project" />
+        <meta name="description" content="Project landing page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

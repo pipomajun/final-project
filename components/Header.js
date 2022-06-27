@@ -30,19 +30,27 @@ const headerStyles = css`
   }
 `;
 
-export default function Header() {
+export default function Header(props) {
   return (
     <header css={headerStyles}>
       <p>Final Project</p>
       <div className="navContainer">
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
+        <Link href="/">Home</Link>
+        <Link href="/about">About</Link>
         <a>Shop</a>
-        <a>Login</a>
+
+        {props.user && (
+          <Link href="/users/private-profile">{props.user.username}</Link>
+        )}
+        {props.user ? (
+          // using a instead of Link since we want to force a full refresh
+          <a href="/logout">Logout</a>
+        ) : (
+          <>
+            <Link href="/register">Register</Link>
+            <Link href="/login">Login</Link>
+          </>
+        )}
       </div>
     </header>
   );

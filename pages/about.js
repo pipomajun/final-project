@@ -5,7 +5,7 @@ export default function About() {
     <div>
       <Head>
         <title>About Us</title>
-        <meta name="description" content="Get to know us!" />
+        <meta name="About" content="Get to know us!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
