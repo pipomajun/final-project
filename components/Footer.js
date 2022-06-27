@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import Link from 'next/link';
 
 const footerStyles = css`
   position: absolute;
@@ -16,12 +17,26 @@ const footerStyles = css`
     font-size: 18px;
     text-align: center;
   }
+  a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ccb97c;
+    margin-right: 30px;
+    transition: transform 0.2s;
+  }
+  a:hover {
+    cursor: pointer;
+    color: #f2f2f2;
+    transform: scale(1.1);
+  }
 `;
 
 export default function Footer() {
   return (
     <footer css={footerStyles}>
       <div>© This is a footer with copyright and stuff.</div>
+      <Link href="/about">About</Link>
     </footer>
   );
 }

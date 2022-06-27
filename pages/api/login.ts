@@ -15,7 +15,7 @@ export type LoginResponseBody =
         message: string;
       }[];
     }
-  | { user: { id: number } };
+  | { user: { id: number; username: string } };
 
 export default async function handler(
   req: NextApiRequest,
@@ -61,6 +61,7 @@ export default async function handler(
       return;
     }
     const userId = userWithPasswordHash.id;
+    const username = userWithPasswordHash.username;
 
     // TODO: create a session for this user
     const token = crypto.randomBytes(80).toString('base64');
@@ -77,7 +78,7 @@ export default async function handler(
       .status(200)
       // Tells the browser to create the cookie for us
       .setHeader('set-Cookie', serializedCookie)
-      .json({ user: { id: userId } });
+      .json({ user: { id: userId, username: username } });
   } else {
     res.status(405).json({ errors: [{ message: 'Method not allowed' }] });
   }

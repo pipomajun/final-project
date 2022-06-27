@@ -103,9 +103,9 @@ export default function Login(props: Props) {
     } else {
       // redirect user to user profile
       // if you want to use userProfile with username redirect to /users/username
-      await router.push(`/users/${loginResponseBody.user.id}`);
+      await router.push(`/users/${loginResponseBody.user.username}`);
       await props.refreshUserProfile();
-      await router.push(`/`);
+      // await router.push(`/`);
     }
   }
   return (
