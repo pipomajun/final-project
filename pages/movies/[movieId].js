@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
-import axios from 'axios';
 import Head from 'next/head';
 import Image from 'next/image';
-import { movieServer } from '../../config';
 
 const mainSinlgeMovieStyles = css`
   display: flex;
@@ -98,28 +96,17 @@ export default function Movie({ movie }) {
   );
 }
 
-export async function getStaticProps(context) {
-  const { movieId } = context.params;
-  const res = await axios(
-    `${movieServer}/${movieId}?api_key=${process.env.API_KEY}&language=en-US&page=1`,
-  );
-  const movie = res.data;
-
+export async function getServerSideProps(context) {
+  const movieIdFromUrl = context.query.movieId;
+  if (!movieIdFromUrl || Array.isArray(movieIdFromUrl)) {
+    return { props: {} };
+  }
+  const movie = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieIdFromUrl}?api_key=${process.env.API_KEY}&language=en-US`,
+  ).then((res) => res.json());
   return {
-    props: { movie },
-  };
-}
-
-export async function getStaticPaths() {
-  const res = await axios(
-    `${movieServer}/popular?api_key=${process.env.API_KEY}&language=en-US&page=1`,
-  );
-  const movies = res.data.results;
-  const ids = movies.map((movie) => movie.id);
-  const paths = ids.map((id) => ({ params: { movieId: id.toString() } }));
-
-  return {
-    paths,
-    fallback: false,
+    props: {
+      movie: movie,
+    },
   };
 }

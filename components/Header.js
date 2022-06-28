@@ -44,7 +44,7 @@ const headerStyles = css`
     display: flex;
     align-items: center;
     width: 250px;
-    justify-content: space-between;
+    justify-content: space-around;
     a {
       text-decoration: none;
       font-size: 24px;
@@ -75,7 +75,7 @@ export default function Header(props) {
           <Link href="/users/private-profile">{props.user.username}</Link>
         )}
         {props.user ? (
-          // using a instead of Link since we want to force a full refresh
+          // using <a> instead of <Link> since we want to force a full refresh
           <a href="/logout">Logout</a>
         ) : (
           <>
