@@ -2,8 +2,9 @@ import { css } from '@emotion/react';
 import Link from 'next/link';
 
 const footerStyles = css`
-  position: absolute;
+  position: sticky;
   bottom: 0;
+  left: 0;
   width: 100%;
   height: 60px; /* Height of the footer */
   background: #0f1736;

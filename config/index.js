@@ -1,2 +1,2 @@
 export const movieServer = 'https://api.themoviedb.org/3/movie';
-export const movieSetvshowServerrver = 'https://api.themoviedb.org/3/tv';
+export const tvShowServer = 'https://api.themoviedb.org/3/tv';

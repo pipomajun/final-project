@@ -2,12 +2,15 @@ import { css } from '@emotion/react';
 import axios from 'axios';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { movieServer } from '../config';
 
 const mainMovieStyles = css`
   display: flex;
   flex-direction: column;
+  overflow: auto;
   h1 {
+    color: black;
     align-self: center;
     margin-bottom: 0;
   }
@@ -19,13 +22,14 @@ const mainMovieStyles = css`
     width: 100%;
     align-items: center;
     gap: 15px;
+    overflow: auto;
   }
+
   .popularMovieCard {
     width: 250px;
     .imageInfoOverlay {
       position: relative;
       display: inline-block;
-      vertical-align: top;
     }
     img {
       border-top-right-radius: 10px;
@@ -33,8 +37,11 @@ const mainMovieStyles = css`
     }
     .movieInfoOverlay {
       display: none;
-
+      padding: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       p {
+        height: 50%;
         margin: 0;
         color: white;
       }
@@ -42,30 +49,32 @@ const mainMovieStyles = css`
     .imageInfoOverlay:hover .movieInfoOverlay {
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.65);
       position: absolute;
       top: 0;
       left: 0;
       display: inline-block;
-      text-align: center;
     }
     .movieTitle {
       height: 50px;
       width: 250px;
-      background-color: white;
+      background-color: #0f1736;
       border-bottom-right-radius: 10px;
       border-bottom-left-radius: 10px;
       p {
+        color: #ccb97c;
         font-size: 20px;
         margin: 0;
         text-align: center;
       }
     }
   }
+  .popularMovieCard:hover {
+    cursor: pointer;
+  }
 `;
 
 export default function Movies({ movies }) {
-  console.log(movies);
   return (
     <div>
       <Head>
@@ -80,24 +89,27 @@ export default function Movies({ movies }) {
         <h2>Popular Movies</h2>
         <div className="popularMovies">
           {movies.map((movie) => (
-            <div key={movie.id} className="popularMovieCard">
-              <div className="imageInfoOverlay">
-                <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={`Poster from ${movie.title}`}
-                  width={275}
-                  height={375}
-                />
-                <div className="movieInfoOverlay">
-                  <p>Release: {movie.release_date}</p>
-                  <p>Average Rating: {movie.vote_average}/10</p>
+            <Link
+              href={`/movies/${movie.id}`}
+              key={`popular-movie-${movie.id}`}
+            >
+              <div className="popularMovieCard">
+                <div className="imageInfoOverlay">
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={`Poster from ${movie.title}`}
+                    width={275}
+                    height={375}
+                  />
+                  <div className="movieInfoOverlay">
+                    <p>{movie.overview}</p>
+                  </div>
+                </div>
+                <div className="movieTitle">
+                  <p>{movie.title}</p>
                 </div>
               </div>
-              <div className="movieTitle">
-                <p>{movie.title}</p>
-                {/* <p>{movie.overview}</p> */}
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
       </main>
