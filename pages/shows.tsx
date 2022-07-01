@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Movie } from '../types';
+import { Show } from '../types';
 
-const mainMovieStyles = css`
+const mainShowStyles = css`
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -17,7 +17,7 @@ const mainMovieStyles = css`
     margin-left: 40px;
     color: black;
   }
-  .popularMovies {
+  .showsContainer {
     padding: 0 40px;
     display: flex;
     width: 100%;
@@ -26,7 +26,7 @@ const mainMovieStyles = css`
     overflow: auto;
   }
 
-  .popularMovieCard {
+  .showCard {
     width: 250px;
     .imageInfoOverlay {
       position: relative;
@@ -36,7 +36,7 @@ const mainMovieStyles = css`
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
     }
-    .movieInfoOverlay {
+    .showInfoOverlay {
       display: none;
       padding: 20px;
       overflow: hidden;
@@ -44,7 +44,6 @@ const mainMovieStyles = css`
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
       overflow: auto;
-
       p {
         height: 50%;
         margin: 0;
@@ -52,18 +51,16 @@ const mainMovieStyles = css`
         font-weight: lighter;
       }
     }
-    .imageInfoOverlay:hover .movieInfoOverlay {
+    .imageInfoOverlay:hover .showInfoOverlay {
       width: 100%;
       height: 98%;
       background: rgba(0, 0, 0, 0.65);
       position: absolute;
-      bottom: 0;
       top: 0;
       left: 0;
       display: inline-block;
-      /* transform: translateY(0%); */
     }
-    .movieTitle {
+    .showTitle {
       height: 50px;
       width: 250px;
       background-color: #0f1736;
@@ -77,104 +74,95 @@ const mainMovieStyles = css`
       }
     }
   }
-  .popularMovieCard:hover {
+  .showCard:hover {
     cursor: pointer;
   }
 `;
 type Props = {
-  trendingMovies: Movie[];
-  popularMovies: Movie[];
-  topratedMovies: Movie[];
+  trendingShows: Show[];
+  popularShows: Show[];
+  topratedShows: Show[];
 };
 
-export default function Movies({
-  trendingMovies,
-  popularMovies,
-  topratedMovies,
+export default function Shows({
+  trendingShows,
+  popularShows,
+  topratedShows,
 }: Props) {
   return (
     <div>
       <Head>
-        <title>Movies</title>
-        <meta name="Movies" content="Browse through our movies" />
+        <title>TV Shows</title>
+        <meta name="TV Shows" content="Browse through our tv shows" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main css={mainMovieStyles}>
-        <h1>Movies</h1>
-        <h2>Trending Movies</h2>
-        <div className="popularMovies">
-          {trendingMovies.map((movie) => (
-            <Link
-              href={`/movies/${movie.id}`}
-              key={`trending-movie-${movie.id}`}
-            >
-              <div className="popularMovieCard">
+      <main css={mainShowStyles}>
+        <h1>TV Shows</h1>
+        <h2>Trending TV Shows</h2>
+        <div className="showsContainer">
+          {trendingShows.map((show) => (
+            <Link href={`/shows/${show.id}`} key={`trending-show-${show.id}`}>
+              <div className="showCard">
                 <div className="imageInfoOverlay">
                   <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={`Poster from ${movie.title}`}
+                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                    alt={`Poster from ${show.name}`}
                     width={275}
                     height={375}
                   />
-                  <div className="movieInfoOverlay">
-                    <p>{movie.overview}</p>
+                  <div className="showInfoOverlay">
+                    <p>{show.overview}</p>
                   </div>
                 </div>
-                <div className="movieTitle">
-                  <p>{movie.title}</p>
+                <div className="showTitle">
+                  <p>{show.name}</p>
                 </div>
               </div>
             </Link>
           ))}
         </div>
-        <h2>Popular Movies</h2>
-        <div className="popularMovies">
-          {popularMovies.map((movie) => (
-            <Link
-              href={`/movies/${movie.id}`}
-              key={`popular-movie-${movie.id}`}
-            >
-              <div className="popularMovieCard">
+        <h2>Popular TV Shows</h2>
+        <div className="showsContainer">
+          {popularShows.map((show) => (
+            <Link href={`/shows/${show.id}`} key={`popular-show-${show.id}`}>
+              <div className="showCard">
                 <div className="imageInfoOverlay">
                   <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={`Poster from ${movie.title}`}
+                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                    alt={`Poster from ${show.name}`}
                     width={275}
                     height={375}
                   />
-                  <div className="movieInfoOverlay">
-                    <p>{movie.overview}</p>
+                  <div className="showInfoOverlay">
+                    <p>{show.overview}</p>
                   </div>
                 </div>
-                <div className="movieTitle">
-                  <p>{movie.title}</p>
+                <div className="showTitle">
+                  <p>{show.name}</p>
                 </div>
               </div>
             </Link>
           ))}
         </div>
-        <h2>Top Rated Movies</h2>
-        <div className="popularMovies">
-          {topratedMovies.map((movie) => (
-            <Link
-              href={`/movies/${movie.id}`}
-              key={`toprated-movie-${movie.id}`}
-            >
-              <div className="popularMovieCard">
+        <h2>Top Rated TV Shows</h2>
+        <div className="showsContainer">
+          {topratedShows.map((show) => (
+            <Link href={`/shows/${show.id}`} key={`toprated-show-${show.id}`}>
+              <div className="showCard">
                 <div className="imageInfoOverlay">
                   <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={`Poster from ${movie.title}`}
+                    src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
+                    alt={`Poster from ${show.name}`}
                     width={275}
                     height={375}
                   />
-                  <div className="movieInfoOverlay">
-                    <p>{movie.overview}</p>
+                  <div className="showInfoOverlay">
+                    <p>{show.overview}</p>
                   </div>
                 </div>
-                <div className="movieTitle">
-                  <p>{movie.title}</p>
+                <div className="showTitle">
+                  <p>{show.name}</p>
                 </div>
               </div>
             </Link>
@@ -191,20 +179,20 @@ export async function getServerSideProps() {
   //   fetch(requests.fetchPopularMovies).then((res) => res.json()),
   // fetch(requests.fetchTopratedMovies).then((res) => res.json()),
   // ]);
-  const trendingMovies = await fetch(
-    `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.API_KEY}&language=en-US`,
+  const trendingShows = await fetch(
+    `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.API_KEY}&language=en-US`,
   ).then((res) => res.json());
-  const popularMovies = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}&language=en-US`,
+  const popularShows = await fetch(
+    `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.API_KEY}&language=en-US`,
   ).then((res) => res.json());
-  const topratedMovies = await fetch(
-    `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.API_KEY}&language=en-US`,
+  const topratedShows = await fetch(
+    `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.API_KEY}&language=en-US`,
   ).then((res) => res.json());
   return {
     props: {
-      trendingMovies: trendingMovies.results,
-      popularMovies: popularMovies.results,
-      topratedMovies: topratedMovies.results,
+      trendingShows: trendingShows.results,
+      popularShows: popularShows.results,
+      topratedShows: topratedShows.results,
     },
   };
 }

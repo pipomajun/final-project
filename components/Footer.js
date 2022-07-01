@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const footerStyles = css`
@@ -11,9 +12,13 @@ const footerStyles = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 50px;
+  img {
+    // margin not working???
+    margin-left: 30px;
+  }
   div {
     color: #ccb97c;
-    width: 60%;
     margin: 0 auto;
     font-size: 18px;
     text-align: center;
@@ -36,6 +41,9 @@ const footerStyles = css`
 export default function Footer() {
   return (
     <footer css={footerStyles}>
+      <Link className="tmdbHomepage" href="https://www.themoviedb.org/">
+        <Image src="/images/TMDB_logo.svg" width="70" height="50" />
+      </Link>
       <div>© This is a footer with copyright and stuff.</div>
       <Link href="/about">About</Link>
     </footer>
