@@ -6,14 +6,20 @@ const mainLandingStyles = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  height: 100vh;
+
   h1 {
     margin-bottom: 0;
   }
-  img {
-    border-radius: 10px;
-    margin-top: 100px;
+
+  .heroImageWrapper {
+    background-image: url('/public/images/heroImage.jpg');
+    background-position: cover;
+    margin: 0 auto;
+    padding-top: 40px;
+    img {
+      border-radius: 10px;
+    }
   }
 `;
 export default function Home() {
@@ -31,7 +37,9 @@ export default function Home() {
           This is the place to organize your (soon to be) favourite movies and
           tv shows
         </h2>
-        <Image src="/images/heroImage.jpg" width="600" height="400" />
+        <div className="heroImageWrapper">
+          <Image src="/images/heroImage.jpg" width="600" height="400" />
+        </div>
       </main>
     </div>
   );

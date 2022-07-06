@@ -11,7 +11,7 @@ const mainLoginStyles = css`
   width: 100%;
   align-items: center;
   justify-content: center;
-
+  margin-top: 150px;
   .loginForm {
     background: #f2f2f2;
     width: 450px;
@@ -21,6 +21,7 @@ const mainLoginStyles = css`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    margin-bottom: 473px;
     .loginInput {
       display: flex;
       flex-direction: column;
@@ -132,6 +133,7 @@ export default function Login(props: Props) {
             <label>
               Password
               <input
+                type="password"
                 value={password}
                 onChange={(event) => {
                   setPassword(event.currentTarget.value);

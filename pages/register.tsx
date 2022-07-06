@@ -33,7 +33,7 @@ const mainRegisterStyles = css`
   width: 100%;
   align-items: center;
   justify-content: center;
-
+  margin-top: 150px;
   .registerForm {
     background: #f2f2f2;
     width: 450px;
@@ -43,6 +43,7 @@ const mainRegisterStyles = css`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    margin-bottom: 473px;
     .registerInput {
       display: flex;
       flex-direction: column;

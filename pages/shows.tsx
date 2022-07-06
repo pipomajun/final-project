@@ -9,13 +9,13 @@ const mainShowStyles = css`
   flex-direction: column;
   overflow: auto;
   h1 {
-    color: black;
+    color: #0f1736;
     align-self: center;
     margin-bottom: 0;
   }
   h2 {
     margin-left: 40px;
-    color: black;
+    color: #0f1736;
   }
   .showsContainer {
     padding: 0 40px;
@@ -66,6 +66,9 @@ const mainShowStyles = css`
       background-color: #0f1736;
       border-bottom-right-radius: 10px;
       border-bottom-left-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       p {
         color: #ccb97c;
         font-size: 20px;
@@ -157,6 +160,7 @@ export default function Shows({
                     width={275}
                     height={375}
                   />
+
                   <div className="showInfoOverlay">
                     <p>{show.overview}</p>
                   </div>

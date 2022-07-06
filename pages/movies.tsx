@@ -8,16 +8,17 @@ const mainMovieStyles = css`
   display: flex;
   flex-direction: column;
   overflow: auto;
+
   h1 {
-    color: black;
+    color: #0f1736;
     align-self: center;
     margin-bottom: 0;
   }
   h2 {
     margin-left: 40px;
-    color: black;
+    color: #0f1736;
   }
-  .popularMovies {
+  .moviesContainer {
     padding: 0 40px;
     display: flex;
     width: 100%;
@@ -26,16 +27,18 @@ const mainMovieStyles = css`
     overflow: auto;
   }
 
-  .popularMovieCard {
+  .movieCard {
     width: 250px;
     .imageInfoOverlay {
       position: relative;
       display: inline-block;
+      overflow: hidden;
+      img {
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+      }
     }
-    img {
-      border-top-right-radius: 10px;
-      border-top-left-radius: 10px;
-    }
+
     .movieInfoOverlay {
       display: none;
       padding: 20px;
@@ -44,6 +47,12 @@ const mainMovieStyles = css`
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
       overflow: auto;
+      background: rgba(0, 0, 0, 0.65);
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 98%;
 
       p {
         height: 50%;
@@ -54,12 +63,6 @@ const mainMovieStyles = css`
     }
     .imageInfoOverlay:hover .movieInfoOverlay {
       width: 100%;
-      height: 98%;
-      background: rgba(0, 0, 0, 0.65);
-      position: absolute;
-      bottom: 0;
-      top: 0;
-      left: 0;
       display: inline-block;
       /* transform: translateY(0%); */
     }
@@ -69,6 +72,9 @@ const mainMovieStyles = css`
       background-color: #0f1736;
       border-bottom-right-radius: 10px;
       border-bottom-left-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       p {
         color: #ccb97c;
         font-size: 20px;
@@ -77,7 +83,7 @@ const mainMovieStyles = css`
       }
     }
   }
-  .popularMovieCard:hover {
+  .movieCard:hover {
     cursor: pointer;
   }
 `;
@@ -102,14 +108,15 @@ export default function Movies({
 
       <main css={mainMovieStyles}>
         <h1>Movies</h1>
+
         <h2>Trending Movies</h2>
-        <div className="popularMovies">
+        <div className="moviesContainer">
           {trendingMovies.map((movie) => (
             <Link
               href={`/movies/${movie.id}`}
               key={`trending-movie-${movie.id}`}
             >
-              <div className="popularMovieCard">
+              <div className="movieCard">
                 <div className="imageInfoOverlay">
                   <Image
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -129,13 +136,13 @@ export default function Movies({
           ))}
         </div>
         <h2>Popular Movies</h2>
-        <div className="popularMovies">
+        <div className="moviesContainer">
           {popularMovies.map((movie) => (
             <Link
               href={`/movies/${movie.id}`}
               key={`popular-movie-${movie.id}`}
             >
-              <div className="popularMovieCard">
+              <div className="movieCard">
                 <div className="imageInfoOverlay">
                   <Image
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -155,13 +162,13 @@ export default function Movies({
           ))}
         </div>
         <h2>Top Rated Movies</h2>
-        <div className="popularMovies">
+        <div className="moviesContainer">
           {topratedMovies.map((movie) => (
             <Link
               href={`/movies/${movie.id}`}
               key={`toprated-movie-${movie.id}`}
             >
-              <div className="popularMovieCard">
+              <div className="movieCard">
                 <div className="imageInfoOverlay">
                   <Image
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

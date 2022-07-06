@@ -25,7 +25,7 @@ const headerStyles = css`
   .navContainerScreen {
     display: flex;
     align-items: center;
-    width: 300px;
+    width: 400px;
     justify-content: space-between;
     a {
       text-decoration: none;
@@ -69,6 +69,7 @@ export default function Header(props) {
       <div className="navContainerScreen">
         <Link href="/movies">Movies</Link>
         <Link href="/shows">TV Shows</Link>
+        <Link href="/search">Search</Link>
       </div>
       <div className="navContainerProfile">
         {props.user && (

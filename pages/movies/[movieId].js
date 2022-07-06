@@ -29,6 +29,9 @@ const mainSinlgeMovieStyles = css`
       h2 {
         font-style: italic;
       }
+      h3 {
+        text-align: justify;
+      }
     }
 
     .movieHardfacts {
@@ -87,7 +90,7 @@ export default function Movie({ movie }) {
             </div>
             <div className="movieRelease">
               <p>Release:</p>
-              <span>{movie.release_date}</span>
+              <span>{movie.release_date.slice(0, 4)}</span>
             </div>
           </div>
         </div>

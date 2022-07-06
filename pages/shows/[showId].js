@@ -29,13 +29,22 @@ const mainSinlgeShowStyles = css`
       h2 {
         font-style: italic;
       }
+      h3 {
+        text-align: justify;
+      }
     }
 
     .showHardfacts {
       margin-top: 40px;
       width: 50%;
       display: flex;
-      justify-content: space-around;
+      flex-direction: column;
+      margin-left: 30px;
+      div {
+        margin-left: 40px;
+        margin-bottom: 20px;
+      }
+      /* justify-content: space-around; */
       p {
         font-size: 24px;
         margin: 0;
@@ -53,7 +62,8 @@ const mainSinlgeShowStyles = css`
 `;
 
 export default function Show({ show }) {
-  console.log('ihaksjdka', show);
+  console.log('SHOW', show);
+
   return (
     <div>
       <Head>Show details</Head>
@@ -79,15 +89,21 @@ export default function Show({ show }) {
           <div className="showHardfacts">
             <div className="showRuntime">
               <p>Runtime:</p>
-              <span>{show.runtime} minutes</span>
+              <span>{show.episode_run_time} minutes</span>
             </div>
             <div className="showRating">
               <p>Rating:</p>
               <span>{show.vote_average}/10</span>
             </div>
             <div className="showRelease">
-              <p>Release:</p>
-              <span>{show.release_date}</span>
+              <p>First Air Date:</p>
+              <span>{show.first_air_date.slice(0, 4)}</span>
+            </div>
+            <div className="noSeasonsEpisodes">
+              <p>Number of Seasons/Episodes:</p>
+              <span>
+                {show.number_of_seasons}/{show.number_of_episodes}
+              </span>
             </div>
           </div>
         </div>
@@ -102,7 +118,7 @@ export async function getServerSideProps(context) {
     return { props: {} };
   }
   const show = await fetch(
-    `https://api.theshowdb.org/3/tv/${showIdFromUrl}?api_key=${process.env.API_KEY}&language=en-US`,
+    `https://api.themoviedb.org/3/tv/${showIdFromUrl}?api_key=${process.env.API_KEY}&language=en-US`,
   ).then((res) => res.json());
   return {
     props: {

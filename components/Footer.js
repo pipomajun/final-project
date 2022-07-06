@@ -12,12 +12,11 @@ const footerStyles = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
-  img {
+  .tmdbWrapper {
     // margin not working???
-    margin-left: 30px;
+    margin-left: 40px;
   }
-  div {
+  .footerText {
     color: #ccb97c;
     margin: 0 auto;
     font-size: 18px;
@@ -28,7 +27,7 @@ const footerStyles = css`
     font-size: 18px;
     font-weight: bold;
     color: #ccb97c;
-    margin-right: 30px;
+    margin-right: 40px;
     transition: transform 0.2s;
   }
   a:hover {
@@ -42,9 +41,13 @@ export default function Footer() {
   return (
     <footer css={footerStyles}>
       <Link className="tmdbHomepage" href="https://www.themoviedb.org/">
-        <Image src="/images/TMDB_logo.svg" width="70" height="50" />
+        <div className="tmdbWrapper">
+          <Image src="/images/TMDB_logo.svg" width="70" height="50" />
+        </div>
       </Link>
-      <div>© This is a footer with copyright and stuff.</div>
+      <div className="footerText">
+        © This is a footer with copyright and stuff.
+      </div>
       <Link href="/about">About</Link>
     </footer>
   );

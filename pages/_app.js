@@ -27,6 +27,7 @@ function MyApp({ Component, pageProps }) {
         styles={css`
           html,
           body {
+            overflow: auto;
             height: 100vh;
             font-size: 24px;
             background: #f0e4c2;
