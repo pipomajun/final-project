@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
-import { Movie, Show } from '../types';
+import { Movie, MovieWatchlist, Show, ShowWatchlist } from '../types';
 
 // ------------------- CONNECT TO DATABASE -------------------
 config();
@@ -154,15 +154,8 @@ export async function deleteExpiredSessions() {
   return sessions.map((session) => camelcaseKeys(session));
 }
 
-// ------------------- MOVIESWATCHLIST TABLE -------------------
-
-export type MovieWatchlist = {
-  userId: User['id'];
-  movieId: Movie['id'];
-  moviePoster: Movie['poster_path'];
-  movieTitle: Movie['title'];
-  movieRuntime: Movie['runtime'];
-}[];
+// ------------------- WATCHLIST TABLE -------------------
+// ADD MOVIE TO WATCHLIST
 export async function addMovie(
   userId: User['id'],
   movieId: Movie['id'],
@@ -181,6 +174,7 @@ export async function addMovie(
   `;
   return camelcaseKeys(addedMovie);
 }
+// REMOVE MOVIE FROM WATCHLIST
 export async function removeMovie(userId: User['id'], movieId: Movie['id']) {
   const [removedMovie] = await sql`
     DELETE FROM
@@ -193,18 +187,26 @@ export async function removeMovie(userId: User['id'], movieId: Movie['id']) {
   `;
   return camelcaseKeys(removedMovie);
 }
-export async function addShow(userId: User['id'], showId: Show['id']) {
-  const [addedShow] = await sql`
+// ADD SHOW TO WATCHLIST
+export async function addShow(
+  userId: User['id'],
+  showId: Show['id'],
+  showPoster: Show['poster_path'],
+  showTitle: Show['name'],
+  showRuntime: Show['episode_run_time'],
+) {
+  const [addedShow] = await sql<[ShowWatchlist]>`
     INSERT INTO
     shows
-      (user_id, show_id)
+      (user_id, show_id, show_poster, show_title, show_runtime)
     VALUES
-      (${userId}, ${showId})
+      (${userId}, ${showId}, ${showPoster}, ${showTitle}, ${showRuntime})
     RETURNING
       *
   `;
   return camelcaseKeys(addedShow);
 }
+// REMOVE SHOW FROM WATCHLIST
 export async function removeShow(userId: User['id'], showId: Show['id']) {
   const [removedShow] = await sql`
     DELETE FROM
@@ -232,4 +234,19 @@ export async function getMovieWatchlist(userId: User['id']) {
   user_id = ${userId}
   `;
   return camelcaseKeys(movieWatchlist);
+}
+export async function getShowWatchlist(userId: User['id']) {
+  const showWatchlist = await sql<[ShowWatchlist[]]>`
+  SELECT
+    user_id,
+    show_id,
+    show_poster,
+    show_title,
+    show_runtime
+  FROM
+    shows
+  WHERE
+  user_id = ${userId}
+  `;
+  return camelcaseKeys(showWatchlist);
 }

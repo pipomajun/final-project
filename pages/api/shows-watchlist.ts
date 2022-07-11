@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { MovieResponseBody } from '../../types';
-import { addMovie, getUserByValidSessionToken } from '../../util/database';
+import { ShowResponseBody } from '../../types';
+import { addShow, getUserByValidSessionToken } from '../../util/database';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<MovieResponseBody>,
+  res: NextApiResponse<ShowResponseBody>,
 ) {
   if (req.method === 'POST') {
     console.log('REQUEST BODY', req.body);
@@ -25,13 +25,13 @@ export default async function handler(
       });
       return;
     }
-    const addedMovie = await addMovie(
+    const addedShow = await addShow(
       user.id,
-      req.body.movie_id,
-      req.body.movie_poster,
-      req.body.movie_title,
-      req.body.movie_runtime,
+      req.body.show_id,
+      req.body.show_poster,
+      req.body.show_title,
+      req.body.show_runtime,
     );
-    console.log('movie added to watchlist:', addedMovie);
+    console.log('show added to watchlist:', addedShow);
   }
 }

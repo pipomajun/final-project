@@ -79,6 +79,22 @@ const mainSinlgeShowStyles = css`
 `;
 
 export default function Show({ show }) {
+  async function handleAddToList() {
+    const showResponse = await fetch('/api/shows-watchlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        show_id: show.id,
+        show_poster: show.poster_path,
+        show_title: show.name,
+        show_runtime: show.episode_run_time,
+      }),
+    });
+    const showResponseBody = await showResponse.json();
+    console.log(showResponseBody);
+  }
   return (
     <div>
       <Head>Show details</Head>
@@ -122,7 +138,7 @@ export default function Show({ show }) {
                 </span>
               </div>
             </div>
-            <button>Add to watchlist!</button>
+            <button onClick={() => handleAddToList()}>Add to watchlist!</button>
           </div>
         </div>
       </main>

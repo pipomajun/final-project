@@ -18,6 +18,22 @@ export type Movie = {
   runtime: number;
 };
 
+export type MovieResponseBody =
+  | {
+      errors: {
+        message: string;
+      }[];
+    }
+  | { movie: { id: number } };
+
+export type MovieWatchlist = {
+  userId: User['id'];
+  movieId: Movie['id'];
+  moviePoster: Movie['poster_path'];
+  movieTitle: Movie['title'];
+  movieRuntime: Movie['runtime'];
+}[];
+
 export type Show = {
   title: string;
   backdrop_path: string;
@@ -35,5 +51,21 @@ export type Show = {
   poster_path: string;
   vote_average: number;
   vote_count: number;
-  runtime: number;
+  episode_run_time: number;
 };
+
+export type ShowResponseBody =
+  | {
+      errors: {
+        message: string;
+      }[];
+    }
+  | { show: { id: number } };
+
+export type ShowWatchlist = {
+  userId: User['id'];
+  showId: Show['id'];
+  showPoster: Show['poster_path'];
+  showTitle: Show['name'];
+  showRuntime: Show['episode_run_time'];
+}[];
