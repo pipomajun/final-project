@@ -15,6 +15,7 @@ export type Movie = {
   poster_path: string;
   vote_average: number;
   vote_count: number;
+  runtime: number;
 };
 
 export type Show = {
@@ -34,4 +35,5 @@ export type Show = {
   poster_path: string;
   vote_average: number;
   vote_count: number;
+  runtime: number;
 };

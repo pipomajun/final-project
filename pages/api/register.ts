@@ -44,6 +44,7 @@ export default async function handler(
         .json({ errors: [{ message: 'Username already taken!' }] });
       return;
     }
+    // -------------------------------------------------------------------------------
     // hash the password - never store the plain password, encrypt it by hashing it
     const passwordHash = await bcrypt.hash(req.body.password, 12);
     // create the user

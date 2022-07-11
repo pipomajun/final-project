@@ -15,7 +15,7 @@ const mainSinlgeMovieStyles = css`
     }
   }
 
-  .movieDetails {
+  .movieInfo {
     width: 60%;
     margin: 0 auto;
     display: flex;
@@ -34,29 +34,67 @@ const mainSinlgeMovieStyles = css`
       }
     }
 
-    .movieHardfacts {
+    .movieDetails {
       margin-top: 40px;
       width: 50%;
       display: flex;
-      justify-content: space-around;
-      p {
-        font-size: 24px;
-        margin: 0;
-        font-weight: bold;
-        padding-bottom: 10px;
+      flex-direction: column;
+      margin-left: 30px;
+      justify-content: space-between;
+
+      .movieFacts {
+        div {
+          margin-left: 40px;
+          margin-bottom: 20px;
+        }
+        p {
+          font-size: 24px;
+          margin: 0;
+          font-weight: bold;
+          padding-bottom: 10px;
+        }
+        span {
+          font-size: 24px;
+        }
+        a {
+          font-size: 24px;
+        }
       }
-      span {
+      button {
+        width: 400px;
+        height: 60px;
+        border-radius: 10px;
+        align-self: center;
+        margin-bottom: 30px;
+        background-color: #0f1736;
+        color: #ccb97c;
         font-size: 24px;
       }
-      a {
-        font-size: 24px;
+      button:hover {
+        cursor: pointer;
+        color: #f2f2f2;
       }
     }
   }
 `;
 
 export default function Movie({ movie }) {
-  console.log(movie);
+  async function handleAddToList() {
+    const movieResponse = await fetch('/api/movies-watchlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        movie_id: movie.id,
+        movie_poster: movie.poster_path,
+        movie_title: movie.title,
+        movie_runtime: movie.runtime,
+      }),
+    });
+    const movieResponseBody = await movieResponse.json();
+    console.log(movieResponseBody);
+  }
   return (
     <div>
       <Head>Movie details</Head>
@@ -69,7 +107,7 @@ export default function Movie({ movie }) {
             height={500}
           />
         </div>
-        <div className="movieDetails">
+        <div className="movieInfo">
           <div className="movieTitleTaglineDescription">
             <h1>{movie.title}</h1>
             <h2>{movie.tagline}</h2>
@@ -79,19 +117,22 @@ export default function Movie({ movie }) {
               <a href={movie.homepage}>Official Website</a>.
             </p>
           </div>
-          <div className="movieHardfacts">
-            <div className="movieRuntime">
-              <p>Runtime:</p>
-              <span>{movie.runtime} minutes</span>
+          <div className="movieDetails">
+            <div className="movieFacts">
+              <div className="movieRuntime">
+                <p>Runtime:</p>
+                <span>{movie.runtime} minutes</span>
+              </div>
+              <div className="movieRating">
+                <p>Rating:</p>
+                <span>{movie.vote_average}/10</span>
+              </div>
+              <div className="movieRelease">
+                <p>Release:</p>
+                <span>{movie.release_date.slice(0, 4)}</span>
+              </div>
             </div>
-            <div className="movieRating">
-              <p>Rating:</p>
-              <span>{movie.vote_average}/10</span>
-            </div>
-            <div className="movieRelease">
-              <p>Release:</p>
-              <span>{movie.release_date.slice(0, 4)}</span>
-            </div>
+            <button onClick={() => handleAddToList()}>Add to watchlist!</button>
           </div>
         </div>
       </main>

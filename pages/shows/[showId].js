@@ -15,7 +15,7 @@ const mainSinlgeShowStyles = css`
     }
   }
 
-  .showDetails {
+  .showInfo {
     width: 60%;
     margin: 0 auto;
     display: flex;
@@ -34,36 +34,51 @@ const mainSinlgeShowStyles = css`
       }
     }
 
-    .showHardfacts {
+    .showDetails {
       margin-top: 40px;
       width: 50%;
       display: flex;
       flex-direction: column;
       margin-left: 30px;
-      div {
-        margin-left: 40px;
-        margin-bottom: 20px;
+      justify-content: space-between;
+
+      .showFacts {
+        div {
+          margin-left: 40px;
+          margin-bottom: 20px;
+        }
+        p {
+          font-size: 24px;
+          margin: 0;
+          font-weight: bold;
+          padding-bottom: 10px;
+        }
+        span {
+          font-size: 24px;
+        }
+        a {
+          font-size: 24px;
+        }
       }
-      /* justify-content: space-around; */
-      p {
+      button {
+        width: 400px;
+        height: 60px;
+        border-radius: 10px;
+        align-self: center;
+        margin-bottom: 30px;
+        background-color: #0f1736;
+        color: #ccb97c;
         font-size: 24px;
-        margin: 0;
-        font-weight: bold;
-        padding-bottom: 10px;
       }
-      span {
-        font-size: 24px;
-      }
-      a {
-        font-size: 24px;
+      button:hover {
+        cursor: pointer;
+        color: #f2f2f2;
       }
     }
   }
 `;
 
 export default function Show({ show }) {
-  console.log('SHOW', show);
-
   return (
     <div>
       <Head>Show details</Head>
@@ -76,7 +91,7 @@ export default function Show({ show }) {
             height={500}
           />
         </div>
-        <div className="showDetails">
+        <div className="showInfo">
           <div className="showTitleTaglineDescription">
             <h1>{show.title}</h1>
             <h2>{show.tagline}</h2>
@@ -86,25 +101,28 @@ export default function Show({ show }) {
               <a href={show.homepage}>Official Website</a>.
             </p>
           </div>
-          <div className="showHardfacts">
-            <div className="showRuntime">
-              <p>Runtime:</p>
-              <span>{show.episode_run_time} minutes</span>
+          <div className="showDetails">
+            <div className="showFacts">
+              <div className="showRuntime">
+                <p>Runtime:</p>
+                <span>{show.episode_run_time} minutes</span>
+              </div>
+              <div className="showRating">
+                <p>Rating:</p>
+                <span>{show.vote_average}/10</span>
+              </div>
+              <div className="showRelease">
+                <p>First Air Date:</p>
+                <span>{show.first_air_date.slice(0, 4)}</span>
+              </div>
+              <div className="noSeasonsEpisodes">
+                <p>Number of Seasons/Episodes:</p>
+                <span>
+                  {show.number_of_seasons}/{show.number_of_episodes}
+                </span>
+              </div>
             </div>
-            <div className="showRating">
-              <p>Rating:</p>
-              <span>{show.vote_average}/10</span>
-            </div>
-            <div className="showRelease">
-              <p>First Air Date:</p>
-              <span>{show.first_air_date.slice(0, 4)}</span>
-            </div>
-            <div className="noSeasonsEpisodes">
-              <p>Number of Seasons/Episodes:</p>
-              <span>
-                {show.number_of_seasons}/{show.number_of_episodes}
-              </span>
-            </div>
+            <button>Add to watchlist!</button>
           </div>
         </div>
       </main>

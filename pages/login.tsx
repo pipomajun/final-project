@@ -9,9 +9,9 @@ const mainLoginStyles = css`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100vh;
   align-items: center;
-  justify-content: center;
-  margin-top: 150px;
+  padding-top: 100px;
   .loginForm {
     background: #f2f2f2;
     width: 450px;
@@ -21,7 +21,6 @@ const mainLoginStyles = css`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    margin-bottom: 473px;
     .loginInput {
       display: flex;
       flex-direction: column;

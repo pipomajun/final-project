@@ -1,6 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
+import { Movie, Show } from '../types';
 
 // ------------------- CONNECT TO DATABASE -------------------
 config();
@@ -151,4 +152,84 @@ export async function deleteExpiredSessions() {
   `;
 
   return sessions.map((session) => camelcaseKeys(session));
+}
+
+// ------------------- MOVIESWATCHLIST TABLE -------------------
+
+export type MovieWatchlist = {
+  userId: User['id'];
+  movieId: Movie['id'];
+  moviePoster: Movie['poster_path'];
+  movieTitle: Movie['title'];
+  movieRuntime: Movie['runtime'];
+}[];
+export async function addMovie(
+  userId: User['id'],
+  movieId: Movie['id'],
+  moviePoster: Movie['poster_path'],
+  movieTitle: Movie['title'],
+  movieRuntime: Movie['runtime'],
+) {
+  const [addedMovie] = await sql<[MovieWatchlist]>`
+    INSERT INTO
+    movies
+      (user_id, movie_id, movie_poster, movie_title, movie_runtime)
+    VALUES
+      (${userId}, ${movieId}, ${moviePoster}, ${movieTitle}, ${movieRuntime})
+    RETURNING
+      *
+  `;
+  return camelcaseKeys(addedMovie);
+}
+export async function removeMovie(userId: User['id'], movieId: Movie['id']) {
+  const [removedMovie] = await sql`
+    DELETE FROM
+    movies
+    WHERE
+      movies_id = ${movieId} AND
+      movies.user_id = userId
+    RETURNING
+      *
+  `;
+  return camelcaseKeys(removedMovie);
+}
+export async function addShow(userId: User['id'], showId: Show['id']) {
+  const [addedShow] = await sql`
+    INSERT INTO
+    shows
+      (user_id, show_id)
+    VALUES
+      (${userId}, ${showId})
+    RETURNING
+      *
+  `;
+  return camelcaseKeys(addedShow);
+}
+export async function removeShow(userId: User['id'], showId: Show['id']) {
+  const [removedShow] = await sql`
+    DELETE FROM
+    shows
+    WHERE
+      shows_id = ${showId} AND
+      shows.user_id = userId
+    RETURNING
+      *
+  `;
+  return camelcaseKeys(removedShow);
+}
+
+export async function getMovieWatchlist(userId: User['id']) {
+  const movieWatchlist = await sql<[MovieWatchlist[]]>`
+  SELECT
+    user_id,
+    movie_id,
+    movie_poster,
+    movie_title,
+    movie_runtime
+  FROM
+    movies
+  WHERE
+  user_id = ${userId}
+  `;
+  return camelcaseKeys(movieWatchlist);
 }

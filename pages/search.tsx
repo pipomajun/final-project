@@ -18,7 +18,6 @@ const mainSearchStyles = css`
     width: 50%;
     height: 100vh;
     .movieSearchHeader {
-      border: 2px solid red;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -30,7 +29,7 @@ const mainSearchStyles = css`
         margin: 20px 0;
         width: 500px;
         height: 40px;
-        border-radius: 5px;
+        border-radius: 10px;
         font-size: 24px;
         text-align: center;
       }
@@ -109,7 +108,6 @@ const mainSearchStyles = css`
     width: 50%;
     height: 100vh;
     .showSearchHeader {
-      border: 2px solid red;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -121,7 +119,7 @@ const mainSearchStyles = css`
         margin: 20px 0;
         width: 500px;
         height: 40px;
-        border-radius: 5px;
+        border-radius: 10px;
         font-size: 24px;
         text-align: center;
       }
@@ -250,7 +248,7 @@ export default function Search(props: Props) {
       <main css={mainSearchStyles}>
         <div className="movieSearchContainer">
           <div className="movieSearchHeader">
-            <h2>Looking for a movie?</h2>
+            <h2>Looking for a Movie?</h2>
             <div className="searchInputWrapper">
               <input
                 placeholder="Search for a movie..."

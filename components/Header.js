@@ -6,7 +6,6 @@ const headerStyles = css`
   background: #0f1736;
   display: flex;
   justify-content: space-between;
-
   .logoHomeContainer {
     a {
       margin-left: 50px;

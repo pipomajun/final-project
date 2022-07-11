@@ -10,6 +10,7 @@ export const errorStyles = css`
   font-size: 16px;
   color: white;
   text-align: center;
+  text-justify: center;
   justify-items: center;
   height: 40px;
   width: 350px;
@@ -18,6 +19,7 @@ export const errorStyles = css`
   animation: errorStyles 0.5s 1;
   animation-fill-mode: forwards;
   animation-delay: 2s;
+  border-radius: 5px;
   @keyframes errorStyles {
     from {
       opacity: 1;
@@ -31,9 +33,9 @@ const mainRegisterStyles = css`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100vh;
   align-items: center;
-  justify-content: center;
-  margin-top: 150px;
+  padding-top: 100px;
   .registerForm {
     background: #f2f2f2;
     width: 450px;
@@ -43,7 +45,6 @@ const mainRegisterStyles = css`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    margin-bottom: 473px;
     .registerInput {
       display: flex;
       flex-direction: column;
@@ -143,7 +144,7 @@ export default function Register(props: Props) {
         <div className="registerForm">
           <div className="registerInput">
             <label>
-              Username
+              Username*
               <input
                 value={username}
                 onChange={(event) => {
@@ -152,7 +153,7 @@ export default function Register(props: Props) {
               />
             </label>
             <label>
-              Password
+              Password*
               <input
                 value={password}
                 onChange={(event) => {
