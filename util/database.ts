@@ -1,7 +1,15 @@
 import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
-import { Movie, MovieWatchlist, Show, ShowWatchlist } from '../types';
+import {
+  Movie,
+  MovieWatchlist,
+  Session,
+  Show,
+  ShowWatchlist,
+  User,
+  UserWithPasswordHash,
+} from '../types';
 
 // ------------------- CONNECT TO DATABASE -------------------
 config();
@@ -33,14 +41,6 @@ function connectOneTimeToDatabase() {
 const sql = connectOneTimeToDatabase();
 
 // ------------------- USERS TABLE -------------------
-// Declare type of user
-export type User = {
-  id: number;
-  username: string;
-};
-type UserWithPasswordHash = User & {
-  passwordHash: string;
-};
 
 // Function to store user in users table (for registration)
 export async function createUser(username: string, passwordHash: string) {
@@ -89,10 +89,6 @@ export async function getUserWithPasswordHashByUsername(username: string) {
 
 // ------------------- SESSIONS TABLE -------------------
 // Declare type of session
-export type Session = {
-  id: number;
-  token: string;
-};
 
 // Function to create a session when the user logs in
 export async function createSession(token: string, userId: User['id']) {
@@ -175,18 +171,19 @@ export async function addMovie(
   return camelcaseKeys(addedMovie);
 }
 // REMOVE MOVIE FROM WATCHLIST
-export async function removeMovie(userId: User['id'], movieId: Movie['id']) {
-  const [removedMovie] = await sql`
+export async function removeMovie(movieId: number, userId: number) {
+  const [removedMovie] = await sql<[MovieWatchlist]>`
     DELETE FROM
     movies
     WHERE
-      movies_id = ${movieId} AND
-      movies.user_id = userId
+      movies.movie_id = ${movieId} AND
+      movies.user_id = ${userId}
     RETURNING
       *
   `;
   return camelcaseKeys(removedMovie);
 }
+
 // ADD SHOW TO WATCHLIST
 export async function addShow(
   userId: User['id'],
@@ -207,27 +204,24 @@ export async function addShow(
   return camelcaseKeys(addedShow);
 }
 // REMOVE SHOW FROM WATCHLIST
-export async function removeShow(userId: User['id'], showId: Show['id']) {
-  const [removedShow] = await sql`
+export async function removeShow(showId: number, userId: number) {
+  const [removedShow] = await sql<[ShowWatchlist]>`
     DELETE FROM
     shows
     WHERE
-      shows_id = ${showId} AND
-      shows.user_id = userId
+      shows.show_id = ${showId} AND
+      shows.user_id = ${userId}
     RETURNING
       *
   `;
   return camelcaseKeys(removedShow);
 }
-
+// GET MOVIE WATCHLIST
 export async function getMovieWatchlist(userId: User['id']) {
-  const movieWatchlist = await sql<[MovieWatchlist[]]>`
+  if (!userId) return undefined;
+  const movieWatchlist = await sql`
   SELECT
-    user_id,
-    movie_id,
-    movie_poster,
-    movie_title,
-    movie_runtime
+    *
   FROM
     movies
   WHERE
@@ -235,6 +229,20 @@ export async function getMovieWatchlist(userId: User['id']) {
   `;
   return camelcaseKeys(movieWatchlist);
 }
+// GET MOVIE FROM WATCHLIST
+export async function getMovie(movieId: [Movie['id']], userId: [User['id']]) {
+  const [movie] = await sql<[MovieWatchlist]>`
+    SELECT
+      *
+    FROM
+      movies
+    WHERE
+      movie_id = ${movieId} AND
+      user_id = ${userId}
+  `;
+  return camelcaseKeys(movie);
+}
+// GET SHOW WATCHLIST
 export async function getShowWatchlist(userId: User['id']) {
   const showWatchlist = await sql<[ShowWatchlist[]]>`
   SELECT

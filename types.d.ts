@@ -1,3 +1,17 @@
+export type User = {
+  id: number;
+  username: string;
+};
+
+export type UserWithPasswordHash = User & {
+  passwordHash: string;
+};
+
+export type Session = {
+  id: number;
+  token: string;
+};
+
 export type Movie = {
   title: string;
   backdrop_path: string;

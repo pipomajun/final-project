@@ -79,8 +79,8 @@ const mainSinlgeShowStyles = css`
 `;
 
 export default function Show({ show }) {
-  async function handleAddToList() {
-    const showResponse = await fetch('/api/shows-watchlist', {
+  async function handleAdd() {
+    const showResponse = await fetch('/api/showsWatchlist', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ export default function Show({ show }) {
                 </span>
               </div>
             </div>
-            <button onClick={() => handleAddToList()}>Add to watchlist!</button>
+            <button onClick={() => handleAdd()}>Add to watchlist!</button>
           </div>
         </div>
       </main>

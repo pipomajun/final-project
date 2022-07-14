@@ -79,8 +79,8 @@ const mainSinlgeMovieStyles = css`
 `;
 
 export default function Movie({ movie }) {
-  async function handleAddToList() {
-    const movieResponse = await fetch('/api/movies-watchlist', {
+  async function handleAdd() {
+    const movieResponse = await fetch('/api/moviesWatchlist', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export default function Movie({ movie }) {
                 <span>{movie.release_date.slice(0, 4)}</span>
               </div>
             </div>
-            <button onClick={() => handleAddToList()}>Add to watchlist!</button>
+            <button onClick={() => handleAdd()}>Add to watchlist!</button>
           </div>
         </div>
       </main>

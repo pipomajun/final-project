@@ -42,8 +42,6 @@ const mainMovieStyles = css`
     .movieInfoOverlay {
       display: none;
       padding: 20px;
-      overflow: hidden;
-      text-overflow: ellipsis;
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
       overflow: auto;
