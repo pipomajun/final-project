@@ -1,34 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MyMDb
+## MyMDb is a web application where users can browse and search through movies/shows and add them to their watchlist.
+### Disclaimer
+This project is powered by "TMDb - The Movie Database". This product uses the TMDB API but is not endorsed or certified by TMDB.
 
-## Getting Started
+## Description
+After registering as a new user, the user is able to browse through three categories of movies and tv shows: **trending, popular and top rated**. Also implemented in this application is a search function, which allows the user to browse through numerous movies and shows. Clicking on the chosen one, directs the user to the respective page and provides the user with further details. With a click on button the user is able to add the chosen movie or show to the user's watchlist.
+Upon accessing the user's profile, they will find the chosen items in their watchlist, where a chosen item can be removed upon watching it.
 
-First, run the development server:
+## Functionalities
+- A landing page
+- User registration, login (with session tokens), logout function
+- Movies page - browse through three categories
+- TV Shows page - browse through three categories
+- Dynamic routes with "Add to watchlist"-button for both
+- User profile with respective watchlists
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Technologies
+- Next.js
+- TypeScript
+- JavaScript
+- PostgreSQL
+- Emotion/css
+- Jest for unit testing
+- Playwright for E2E testing
+- DrawSQL
+- FIGMA
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Screenshots
+### Landing page
+![Screenshot of the landing page](/public/screenshots/landingpage.jpg "This is the landing page")
+### Browse through movies
+![Screenshot of the movies page](/public/screenshots/moviespage.jpg "Browse through movies")
+### Search for a specific movie
+![Screenshot of the search page](/public/screenshots/searchpage.jpg "Search for a specific movie")
+### See further details and add to watchlist
+![Screenshot of the dynamic routes page](/public/screenshots/moviedetailpage.jpg "More info and add to watchlist")
+### Check on watchlist on user's profile
+![Screenshot of the profile page](/public/screenshots/profilepage.jpg "See the added movie in the watchlist")
