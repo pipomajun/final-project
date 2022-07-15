@@ -179,7 +179,7 @@ export default function UserDetail(props: Props) {
         </div>
         <h1>Hey, {props.user.username}!</h1>
         <h2>What to watch today?</h2>
-        {props.movieWatchlist.length < 1 && props.showWatchlist.length < 1 ? (
+        {movieWatchlist.length < 1 && showWatchlist.length < 1 ? (
           <div className="watchlistContainer">
             Oh, it seems like there is nothing in your watchlists... Browse some
             more!
