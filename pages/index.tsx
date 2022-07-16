@@ -2,7 +2,8 @@ import { css } from '@emotion/react';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { getUserByValidSessionToken, User } from '../util/database';
+import { User } from '../types';
+import { getUserByValidSessionToken } from '../util/database';
 
 const mainLandingStyles = css`
   display: flex;
@@ -34,7 +35,6 @@ type Props = {
   user: User;
 };
 export default function Home(props: Props) {
-  console.log('LOG THAT', props.user);
   return (
     <div>
       <Head>

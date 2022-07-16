@@ -10,8 +10,10 @@ import {
   User,
   UserWithPasswordHash,
 } from '../types';
+import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
 
 // ------------------- CONNECT TO DATABASE -------------------
+setPostgresDefaultsOnHeroku();
 config();
 // Type needed for the connection function below
 declare module globalThis {
