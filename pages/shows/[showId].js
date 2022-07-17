@@ -1,7 +1,35 @@
 import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useState } from 'react';
 
+const addErrors = css`
+  z-index: 2;
+  background-color: #c24b4b;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  text-justify: center;
+  justify-items: center;
+  height: 40px;
+  width: 350px;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: -100px;
+  align-self: center;
+  animation: addErrors 0.5s 1;
+  animation-fill-mode: forwards;
+  animation-delay: 2s;
+  border-radius: 5px;
+  @keyframes addErrors {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+`;
 const mainSinlgeShowStyles = css`
   display: flex;
   flex-direction: column;
@@ -79,6 +107,8 @@ const mainSinlgeShowStyles = css`
 `;
 
 export default function Show({ show }) {
+  const [errors, setErrors] = useState([]);
+
   async function handleAdd() {
     const showResponse = await fetch('/api/showsWatchlist', {
       method: 'POST',
@@ -94,6 +124,8 @@ export default function Show({ show }) {
     });
     const showResponseBody = await showResponse.json();
     console.log(showResponseBody);
+    setErrors(showResponseBody.errors);
+    return;
   }
   return (
     <div>
@@ -138,6 +170,11 @@ export default function Show({ show }) {
                 </span>
               </div>
             </div>
+            {errors.map((error) => (
+              <div css={addErrors} key={`error-${error.message}`}>
+                {error.message}
+              </div>
+            ))}{' '}
             <button onClick={() => handleAdd()}>Add to watchlist!</button>
           </div>
         </div>
