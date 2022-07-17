@@ -271,7 +271,7 @@ export default function Search(props: Props) {
                       />
                     ) : (
                       <Image
-                        src="/../public/images/noImage.jpg"
+                        src="/public/images/noImage.jpg"
                         alt="No poster available"
                         height={345}
                         width={250}
