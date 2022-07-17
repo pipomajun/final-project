@@ -19,7 +19,7 @@ export default function About() {
   return (
     <div>
       <Head>
-        <title>About Us</title>
+        <title>About</title>
         <meta name="About" content="Get to know us!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
