@@ -38,7 +38,7 @@ export default function Home(props: Props) {
   return (
     <div>
       <Head>
-        <title>Final Project</title>
+        <title>MyMDb</title>
         <meta name="description" content="Project landing page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

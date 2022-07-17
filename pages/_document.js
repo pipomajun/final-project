@@ -11,6 +11,7 @@ export default function MyDocument() {
         <link
           href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap"
           rel="stylesheet"
+          type="text/css"
         />
       </Head>
       <body>
