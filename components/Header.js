@@ -76,6 +76,7 @@ export default function Header(props) {
         )}
         {props.user ? (
           // use <a> to force page reload
+          // eslint-disable-next-line @next/next/no-html-link-for-pages
           <a href="/logout">Logout</a>
         ) : (
           <>
