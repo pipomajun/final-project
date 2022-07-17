@@ -16,6 +16,9 @@ const footerStyles = css`
     // margin not working???
     margin-left: 40px;
   }
+  .tmdbWrapper:hover {
+    cursor: pointer;
+  }
   .footerText {
     color: #ccb97c;
     margin: 0 auto;
@@ -46,7 +49,8 @@ export default function Footer() {
         </div>
       </Link>
       <div className="footerText">
-        © This is a footer with copyright and stuff.
+        © pipomajun - find me on{' '}
+        <a href="https://www.github.com/pipomajun">GitHub</a>
       </div>
       <Link href="/about">About</Link>
     </footer>
