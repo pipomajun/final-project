@@ -30,6 +30,18 @@ export default async function handler(
       });
       return;
     }
+    // CHECK TO SEE IF MOVIE IS ALREADY IN WATCHLIST
+    const movieWatchlist = await getMovieWatchlist(user.id);
+    console.log('A', movieWatchlist);
+    console.log('B', req.body.movie_id);
+    const foundMovie = movieWatchlist?.find((movie) => movie.movieId);
+
+    if (foundMovie) {
+      res.status(400).json({
+        errors: [{ message: 'Movie already in your watchlist!' }],
+      });
+      return;
+    }
     const addedMovie = await addMovie(
       user.id,
       req.body.movie_id,

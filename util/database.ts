@@ -246,7 +246,7 @@ export async function getMovie(movieId: [Movie['id']], userId: [User['id']]) {
 }
 // GET SHOW WATCHLIST
 export async function getShowWatchlist(userId: User['id']) {
-  const showWatchlist = await sql<[ShowWatchlist[]]>`
+  const showWatchlist = await sql`
   SELECT
     user_id,
     show_id,

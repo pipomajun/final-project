@@ -1,11 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ShowResponseBody } from '../../types';
-import { addShow, getUserByValidSessionToken } from '../../util/database';
+// import { ShowResponseBody } from '../../types';
+import {
+  addShow,
+  getShowWatchlist,
+  getUserByValidSessionToken,
+} from '../../util/database';
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ShowResponseBody>,
+  res: NextApiResponse,
 ) {
+  // ADD SHOW TO WATCHLIST
   if (req.method === 'POST') {
     console.log('REQUEST BODY', req.body);
     const token = req.cookies.sessionToken;
@@ -22,6 +27,18 @@ export default async function handler(
         errors: [
           { message: 'It seems like your session expired. Log in again!' },
         ],
+      });
+      return;
+    }
+    // CHECK TO SEE IF SHOW IS ALREADY IN WATCHLIST
+    const showWatchlist = await getShowWatchlist(user.id);
+    console.log('A', showWatchlist);
+    console.log('B', req.body.show_id);
+    const foundMovie = showWatchlist.find((show) => show.showId);
+
+    if (foundMovie) {
+      res.status(400).json({
+        errors: [{ message: 'Show already in your watchlist!' }],
       });
       return;
     }
