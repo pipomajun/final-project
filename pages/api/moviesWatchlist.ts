@@ -30,50 +30,53 @@ export default async function handler(
       });
       return;
     }
-    // CHECK TO SEE IF MOVIE IS ALREADY IN WATCHLIST
+    // CHECK TO SEE IF MOVIE ID IN REQUEST BODY IS ALREADY IN LIST
     const movieWatchlist = await getMovieWatchlist(user.id);
-    console.log('A', movieWatchlist);
-    console.log('B', req.body.movie_id);
-    const foundMovie = movieWatchlist?.find((movie) => movie.movieId);
+    console.log('WHAT IS THE MOVIE WATCHLIST', movieWatchlist);
+    console.log('CHECK THE MOVIE ID IN THE REQUEST BODY', req.body.movie_id);
+    const foundMovie = movieWatchlist?.find(
+      (movie) => movie.movieId === req.body.movie_id,
+    );
 
     if (foundMovie) {
       res.status(400).json({
-        errors: [{ message: 'Movie already in your watchlist!' }],
+        errors: [{ message: 'Movie is already in your watchlist!' }],
       });
       return;
+    } else {
+      const addedMovie = await addMovie(
+        user.id,
+        req.body.movie_id,
+        req.body.movie_poster,
+        req.body.movie_title,
+        req.body.movie_runtime,
+      );
+      console.log('movie added to watchlist:', addedMovie);
+      return res.status(200).json(addedMovie);
     }
-    const addedMovie = await addMovie(
-      user.id,
-      req.body.movie_id,
-      req.body.movie_poster,
-      req.body.movie_title,
-      req.body.movie_runtime,
-    );
-    console.log('movie added to watchlist:', addedMovie);
-    return res.status(200).json(addedMovie);
-  }
-  // FETCH WATCHLIST FROM API
-  if (req.method === 'GET') {
-    console.log('REQUEST BODY', req.body);
-    const token = req.cookies.sessionToken;
-    if (!token) {
-      res
-        .status(400)
-        .json({ errors: [{ message: 'You need to log in first!' }] });
-      return;
-    }
-    const user = await getUserByValidSessionToken(token);
-    console.log(user);
-    if (!user) {
-      res.status(400).json({
-        errors: [
-          { message: 'It seems like your session expired. Log in again!' },
-        ],
-      });
-      return;
-    }
-    const movieWatchlist = await getMovieWatchlist(user.id);
-
-    return res.status(200).json(movieWatchlist);
   }
 }
+//   // FETCH WATCHLIST FROM API
+//   if (req.method === 'GET') {
+//     console.log('REQUEST BODY', req.body);
+//     const token = req.cookies.sessionToken;
+//     if (!token) {
+//       res
+//         .status(400)
+//         .json({ errors: [{ message: 'You need to log in first!' }] });
+//       return;
+//     }
+//     const user = await getUserByValidSessionToken(token);
+//     console.log(user);
+//     if (!user) {
+//       res.status(400).json({
+//         errors: [
+//           { message: 'It seems like your session expired. Log in again!' },
+//         ],
+//       });
+//       return;
+//     }
+//     const movieWatchlist = await getMovieWatchlist(user.id);
+
+//     return res.status(200).json(movieWatchlist);
+//   }
