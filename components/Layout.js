@@ -10,7 +10,6 @@ export default function Layout(props) {
   return (
     <div css={layoutContainer}>
       <Header user={props.user} refreshUserProfile={props.refreshUserProfile} />
-
       {
         // Page content
         props.children
