@@ -9,7 +9,7 @@ export type UserWithPasswordHash = User & {
 
 export type Session = {
   id: number;
-  token: string | undefined;
+  token: string;
 };
 
 export type Movie = {
