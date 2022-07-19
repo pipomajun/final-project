@@ -1,34 +1,36 @@
+import 'material-react-toastify/dist/ReactToastify.css';
 import { css } from '@emotion/react';
+import { toast, ToastContainer } from 'material-react-toastify';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { RegisterResponseBody } from './api/register';
 
-export const errorStyles = css`
-  background-color: #c24b4b;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  text-justify: center;
-  justify-items: center;
-  height: 40px;
-  width: 350px;
-  padding: 5px;
-  margin-top: 5px;
-  animation: errorStyles 0.5s 1;
-  animation-fill-mode: forwards;
-  animation-delay: 2s;
-  border-radius: 5px;
-  @keyframes errorStyles {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-`;
+// export const errorStyles = css`
+//   background-color: #c24b4b;
+//   font-size: 16px;
+//   color: white;
+//   text-align: center;
+//   text-justify: center;
+//   justify-items: center;
+//   height: 40px;
+//   width: 350px;
+//   padding: 5px;
+//   margin-top: 5px;
+//   animation: errorStyles 0.5s 1;
+//   animation-fill-mode: forwards;
+//   animation-delay: 2s;
+//   border-radius: 5px;
+//   @keyframes errorStyles {
+//     from {
+//       opacity: 1;
+//     }
+//     to {
+//       opacity: 0;
+//     }
+//   }
+// `;
 const mainRegisterStyles = css`
   display: flex;
   flex-direction: column;
@@ -76,6 +78,31 @@ const mainRegisterStyles = css`
       text-shadow: none;
       cursor: pointer;
     }
+    .toast-container {
+      height: 90px;
+      width: 800px;
+      border-radius: 10px;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      .toast-wrapper {
+        background-color: #c24b4b;
+        height: 900px;
+        width: 350px;
+        align-self: center;
+        justify-self: center;
+      }
+      .toast-body {
+        margin-top: 13px;
+        font-size: 18px;
+        color: white;
+        height: 90px;
+        text-align: center;
+        text-justify: center;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 `;
 type Props = {
@@ -84,13 +111,27 @@ type Props = {
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<
-    {
-      message: string;
-    }[]
-  >([]);
+  // const [errors, setErrors] = useState<
+  //   {
+  //     message: string;
+  //   }[]
+  // >([]);
   const router = useRouter();
-  // handle registration onClick
+  // NOTIFICATIONS
+  const missingInfo = () => {
+    toast('Username or password not provided!', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2300,
+    });
+  };
+  const usernameTaken = () => {
+    toast('Username already taken!', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2300,
+    });
+  };
+
+  // HANDLE REGISTRATION
   async function handleRegistration() {
     const registerResponse = await fetch('/api/register', {
       method: 'POST',
@@ -102,6 +143,15 @@ export default function Register(props: Props) {
         password: password,
       }),
     });
+    // add notifications to onClick
+    if (registerResponse.status === 400) {
+      missingInfo();
+      return;
+    }
+    if (registerResponse.status === 401) {
+      usernameTaken();
+      return;
+    }
 
     const registerResponseBody: RegisterResponseBody =
       await registerResponse.json();
@@ -109,10 +159,10 @@ export default function Register(props: Props) {
     console.log(registerResponseBody);
 
     // if there is an error, show the error message
-    if ('errors' in registerResponseBody) {
-      setErrors(registerResponseBody.errors);
-      return;
-    }
+    // if ('errors' in registerResponseBody) {
+    //   setErrors(registerResponseBody.errors);
+    //   return;
+    // }
     const returnTo = router.query.returnTo;
     if (
       returnTo &&
@@ -164,12 +214,18 @@ export default function Register(props: Props) {
             </label>
           </div>
           <button onClick={() => handleRegistration()}>Register</button>
+          <ToastContainer
+            className="toast-container"
+            toastClassName="toast-wrapper"
+            bodyClassName="toast-body"
+            closeButton={false}
+          />
         </div>
-        {errors.map((error) => (
+        {/* {errors.map((error) => (
           <div css={errorStyles} key={`error-${error.message}`}>
             {error.message}
           </div>
-        ))}{' '}
+        ))}{' '} */}
       </main>
     </div>
   );

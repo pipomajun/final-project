@@ -1,9 +1,12 @@
+import 'material-react-toastify/dist/ReactToastify.css';
 import { css } from '@emotion/react';
+import { toast, ToastContainer } from 'material-react-toastify';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { LoginResponseBody } from './api/login';
-import { errorStyles } from './register';
+
+// import { errorStyles } from './register';
 
 const mainLoginStyles = css`
   display: flex;
@@ -52,6 +55,31 @@ const mainLoginStyles = css`
       text-shadow: none;
       cursor: pointer;
     }
+    .toast-container {
+      height: 90px;
+      width: 800px;
+      border-radius: 10px;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      .toast-wrapper {
+        background-color: #c24b4b;
+        height: 900px;
+        width: 400px;
+        align-self: center;
+        justify-self: center;
+      }
+      .toast-body {
+        margin-top: 13px;
+        font-size: 18px;
+        color: white;
+        height: 90px;
+        text-align: center;
+        text-justify: center;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 `;
 type Props = {
@@ -60,13 +88,20 @@ type Props = {
 export default function Login(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<
-    {
-      message: string;
-    }[]
-  >([]);
+  // const [errors, setErrors] = useState<
+  //   {
+  //     message: string;
+  //   }[]
+  // >([]);
   const router = useRouter();
-  // handle login onClick
+  // NOTIFICATION
+  const noMatch = () => {
+    toast('Username or password does not match!', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2300,
+    });
+  };
+  // HANDLE LOGIN
   async function handleLogin() {
     const loginResponse = await fetch('/api/login', {
       method: 'POST',
@@ -78,16 +113,20 @@ export default function Login(props: Props) {
         password: password,
       }),
     });
-
+    // add notification to onClick
+    if (loginResponse.status === 401) {
+      noMatch();
+      return;
+    }
     const loginResponseBody: LoginResponseBody = await loginResponse.json();
 
     console.log(loginResponseBody);
 
     // if there is an error, show the error message
-    if ('errors' in loginResponseBody) {
-      setErrors(loginResponseBody.errors);
-      return;
-    }
+    // if ('errors' in loginResponseBody) {
+    //   setErrors(loginResponseBody.errors);
+    //   return;
+    // }
 
     const returnTo = router.query.returnTo;
 
@@ -142,12 +181,18 @@ export default function Login(props: Props) {
             </label>
           </div>
           <button onClick={() => handleLogin()}>Login</button>
+          <ToastContainer
+            className="toast-container"
+            toastClassName="toast-wrapper"
+            bodyClassName="toast-body"
+            closeButton={false}
+          />
         </div>
-        {errors.map((error) => (
+        {/* {errors.map((error) => (
           <div css={errorStyles} key={`error-${error.message}`}>
             {error.message}
           </div>
-        ))}{' '}
+        ))}{' '} */}
       </main>
     </div>
   );

@@ -1,35 +1,36 @@
+import 'material-react-toastify/dist/ReactToastify.css';
 import { css } from '@emotion/react';
+import { toast, ToastContainer } from 'material-react-toastify';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useState } from 'react';
 
-const addErrors = css`
-  z-index: 2;
-  background-color: #c24b4b;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  text-justify: center;
-  justify-items: center;
-  height: 40px;
-  width: 350px;
-  padding: 5px;
-  margin-top: 5px;
-  margin-bottom: -100px;
-  align-self: center;
-  animation: addErrors 0.5s 1;
-  animation-fill-mode: forwards;
-  animation-delay: 2s;
-  border-radius: 5px;
-  @keyframes addErrors {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
-`;
+// const addErrors = css`
+//   z-index: 2;
+//   background-color: #c24b4b;
+//   font-size: 16px;
+//   color: white;
+//   text-align: center;
+//   text-justify: center;
+//   justify-items: center;
+//   height: 40px;
+//   width: 350px;
+//   padding: 5px;
+//   margin-top: 5px;
+//   margin-bottom: -100px;
+//   align-self: center;
+//   animation: addErrors 0.5s 1;
+//   animation-fill-mode: forwards;
+//   animation-delay: 2s;
+//   border-radius: 5px;
+//   @keyframes addErrors {
+//     from {
+//       opacity: 1;
+//     }
+//     to {
+//       opacity: 0;
+//     }
+//   }
+// `;
 const mainSinlgeShowStyles = css`
   display: flex;
   flex-direction: column;
@@ -102,13 +103,52 @@ const mainSinlgeShowStyles = css`
         cursor: pointer;
         color: #f2f2f2;
       }
+      .toast-container {
+        height: 60px;
+        width: 265px;
+        border-radius: 10px;
+        justify-content: center;
+        margin-bottom: 100px;
+        .toast-wrapper {
+          background-color: #0f1736;
+          /* opacity: 0.9; */
+          height: 40px;
+          width: 250px;
+        }
+        .toast-body {
+          display: flex;
+          /* color: #ccb97c; */
+          color: #ccb97b;
+          height: 40px;
+          width: 400px;
+          align-items: center;
+          justify-content: center;
+        }
+      }
     }
   }
 `;
 
 export default function Show({ show }) {
-  const [errors, setErrors] = useState([]);
-
+  // NOTIFICATIONS
+  const notLoggedInNotification = () => {
+    toast('You need to log in!', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: 2300,
+    });
+  };
+  const addedNotification = () => {
+    toast('Added to your list!', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: 2300,
+    });
+  };
+  const notAddedNotification = () => {
+    toast('Already in your list!', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: 2300,
+    });
+  };
   async function handleAdd() {
     const showResponse = await fetch('/api/showsWatchlist', {
       method: 'POST',
@@ -122,9 +162,18 @@ export default function Show({ show }) {
         show_runtime: show.episode_run_time,
       }),
     });
+    // add notifications to onClick
+    if (showResponse.status === 401) {
+      notLoggedInNotification();
+      return;
+    }
+    if (showResponse.status === 400) {
+      notAddedNotification();
+    } else {
+      addedNotification();
+    }
     const showResponseBody = await showResponse.json();
     console.log(showResponseBody);
-    setErrors(showResponseBody.errors);
     return;
   }
   return (
@@ -170,12 +219,13 @@ export default function Show({ show }) {
                 </span>
               </div>
             </div>
-            {errors.map((error) => (
-              <div css={addErrors} key={`error-${error.message}`}>
-                {error.message}
-              </div>
-            ))}{' '}
             <button onClick={() => handleAdd()}>Add to watchlist!</button>
+            <ToastContainer
+              className="toast-container"
+              toastClassName="toast-wrapper"
+              bodyClassName="toast-body"
+              closeButton="close-button"
+            />
           </div>
         </div>
       </main>
