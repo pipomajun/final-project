@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     domains: ['image.tmdb.org'],
   },
-  experimental: {
+  compiler: {
     emotion: true,
   },
 };
