@@ -59,6 +59,11 @@ const headerStyles = css`
   }
 `;
 
+// using a instead of Link since we want to force a full refresh
+function Anchor({ children, ...restProps }) {
+  return <a {...restProps}>{children}</a>;
+}
+
 export default function Header(props) {
   return (
     <header css={headerStyles}>
@@ -76,8 +81,7 @@ export default function Header(props) {
         )}
         {props.user ? (
           // use <a> to force page reload
-          // eslint-disable-next-line @next/next/no-html-link-for-pages
-          <a href="/logout">Logout</a>
+          <Anchor href="/logout">Logout</Anchor>
         ) : (
           <>
             <Link href="/register">Register</Link>

@@ -191,7 +191,12 @@ export default function Movie({ movie }) {
                 <span>{movie.release_date.slice(0, 4)}</span>
               </div>
             </div>
-            <button onClick={() => handleAdd()}>Add to watchlist!</button>
+            <button
+              data-test-id="add-to-list-button"
+              onClick={() => handleAdd()}
+            >
+              Add to watchlist!
+            </button>
             <ToastContainer
               className="toast-container"
               toastClassName="toast-wrapper"

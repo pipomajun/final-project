@@ -163,6 +163,7 @@ export default function Login(props: Props) {
             <label>
               Username
               <input
+                data-test-id="input-username"
                 value={username}
                 onChange={(event) => {
                   setUsername(event.currentTarget.value);
@@ -172,6 +173,7 @@ export default function Login(props: Props) {
             <label>
               Password
               <input
+                data-test-id="input-password"
                 type="password"
                 value={password}
                 onChange={(event) => {
@@ -180,7 +182,9 @@ export default function Login(props: Props) {
               />
             </label>
           </div>
-          <button onClick={() => handleLogin()}>Login</button>
+          <button data-test-id="button-login" onClick={() => handleLogin()}>
+            Login
+          </button>
           <ToastContainer
             className="toast-container"
             toastClassName="toast-wrapper"
