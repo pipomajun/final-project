@@ -51,7 +51,7 @@ export default async function handler(
       req.body.show_title,
       req.body.show_runtime,
     );
-    res.status(200);
     console.log('show added to watchlist:', addedShow);
+    return res.status(200).json(addedShow);
   }
 }

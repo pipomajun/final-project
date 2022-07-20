@@ -174,6 +174,9 @@ export default function Show({ show }) {
     }
     const showResponseBody = await showResponse.json();
     console.log(showResponseBody);
+    if ('errors' in showResponseBody) {
+      return;
+    }
     return;
   }
   return (
