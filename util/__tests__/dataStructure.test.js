@@ -10,13 +10,13 @@ test("Reduce user's watchlist ", () => {
     },
     {
       userId: 1,
-      animalFirstName: 'pipomajun',
+      userName: 'pipomajun',
       movieId: 361743,
       movieTitle: 'Top Gun: Maverick',
     },
     {
       userId: 1,
-      animalFirstName: 'pipomajun',
+      userName: 'pipomajun',
       movieId: 810693,
       movieTitle: 'Jujutsu Kaisen 0',
     },
