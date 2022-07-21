@@ -13,7 +13,6 @@ const footerStyles = css`
   justify-content: space-between;
   align-items: center;
   .tmdbWrapper {
-    // margin not working???
     margin-left: 40px;
   }
   .tmdbWrapper:hover {

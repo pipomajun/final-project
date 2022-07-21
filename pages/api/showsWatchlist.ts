@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-// import { ShowResponseBody } from '../../types';
 import {
   addShow,
   getShowWatchlist,

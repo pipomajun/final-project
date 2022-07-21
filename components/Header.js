@@ -59,7 +59,7 @@ const headerStyles = css`
   }
 `;
 
-// using a instead of Link since we want to force a full refresh
+// <Anchor> instead of <Link> --> forces page refresh
 function Anchor({ children, ...restProps }) {
   return <a {...restProps}>{children}</a>;
 }

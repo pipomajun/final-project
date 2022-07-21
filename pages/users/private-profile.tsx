@@ -120,16 +120,8 @@ type Props = {
 export default function UserDetail(props: Props) {
   const [movieWatchlist, setMovieWatchlist] = useState(props.movieWatchlist);
   const [showWatchlist, setShowWatchlist] = useState(props.showWatchlist);
-  // useEffect(() => {
-  //   async function getMovieWatchlist() {
-  //     const response = await fetch('/api/moviesWatchlist');
-  //     const watchlist = await response.json();
-  //     setMovieWatchlist(watchlist);
-  //   }
-  //   getMovieWatchlist().catch(() => {
-  //     console.log('Fetching watchlist failed');
-  //   });
-  // }, []);
+
+  // Handle remove movie from list
   async function handleRemoveMovie(movieId: number) {
     console.log('MOVIE ID', movieId);
     const response = await fetch(`/api/movies/${movieId}`, {
@@ -145,6 +137,7 @@ export default function UserDetail(props: Props) {
     );
     setMovieWatchlist(updatedMovieWatchlist);
   }
+  // Handle remove show from list
   async function handleRemoveShow(showId: number) {
     console.log('SHOW ID', showId);
     const response = await fetch(`/api/shows/${showId}`, {
@@ -215,8 +208,6 @@ export default function UserDetail(props: Props) {
                           Remove from watchlist
                         </button>
                       </div>
-                      {/* <div className="buttonContainer">
-                    </div> */}
                     </div>
                   </div>
                 ))}

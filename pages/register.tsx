@@ -5,32 +5,8 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { RegisterResponseBody } from './api/register';
+import { RegisterResponseBody } from '../types';
 
-// export const errorStyles = css`
-//   background-color: #c24b4b;
-//   font-size: 16px;
-//   color: white;
-//   text-align: center;
-//   text-justify: center;
-//   justify-items: center;
-//   height: 40px;
-//   width: 350px;
-//   padding: 5px;
-//   margin-top: 5px;
-//   animation: errorStyles 0.5s 1;
-//   animation-fill-mode: forwards;
-//   animation-delay: 2s;
-//   border-radius: 5px;
-//   @keyframes errorStyles {
-//     from {
-//       opacity: 1;
-//     }
-//     to {
-//       opacity: 0;
-//     }
-//   }
-// `;
 const mainRegisterStyles = css`
   display: flex;
   flex-direction: column;
@@ -111,13 +87,8 @@ type Props = {
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [errors, setErrors] = useState<
-  //   {
-  //     message: string;
-  //   }[]
-  // >([]);
   const router = useRouter();
-  // NOTIFICATIONS
+  // Notifications
   const missingInfo = () => {
     toast('Username or password not provided!', {
       position: toast.POSITION.TOP_CENTER,
@@ -131,7 +102,7 @@ export default function Register(props: Props) {
     });
   };
 
-  // HANDLE REGISTRATION
+  // Handle registration
   async function handleRegistration() {
     const registerResponse = await fetch('/api/register', {
       method: 'POST',
@@ -143,7 +114,7 @@ export default function Register(props: Props) {
         password: password,
       }),
     });
-    // add notifications to onClick
+    // Add notifications to onClick
     if (registerResponse.status === 400) {
       missingInfo();
       return;
@@ -158,11 +129,6 @@ export default function Register(props: Props) {
 
     console.log(registerResponseBody);
 
-    // if there is an error, show the error message
-    // if ('errors' in registerResponseBody) {
-    //   setErrors(registerResponseBody.errors);
-    //   return;
-    // }
     const returnTo = router.query.returnTo;
     if (
       returnTo &&
@@ -174,9 +140,7 @@ export default function Register(props: Props) {
       await props.refreshUserProfile();
       await router.push(returnTo);
     } else {
-      // redirect user to user profile
-      // if you want to use userProfile with username redirect to /users/username
-      // await router.push(`/users/${loginResponseBody.user.id}`);
+      // Redirect user to landing page
       await props.refreshUserProfile();
       await router.push(`/`);
     }
@@ -221,11 +185,6 @@ export default function Register(props: Props) {
             closeButton={false}
           />
         </div>
-        {/* {errors.map((error) => (
-          <div css={errorStyles} key={`error-${error.message}`}>
-            {error.message}
-          </div>
-        ))}{' '} */}
       </main>
     </div>
   );

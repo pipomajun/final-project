@@ -12,6 +12,22 @@ export type Session = {
   token: string;
 };
 
+export type LoginResponseBody =
+  | {
+      errors: {
+        message: string;
+      }[];
+    }
+  | { user: { id: number; username: string } };
+
+export type RegisterResponseBody =
+  | {
+      errors: {
+        message: string;
+      }[];
+    }
+  | { user: { id: number } };
+
 export type Movie = {
   title: string;
   backdrop_path: string;

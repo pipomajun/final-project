@@ -4,7 +4,7 @@ import { toast, ToastContainer } from 'material-react-toastify';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { LoginResponseBody } from './api/login';
+import { LoginResponseBody } from '../types';
 
 // import { errorStyles } from './register';
 
@@ -88,20 +88,16 @@ type Props = {
 export default function Login(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [errors, setErrors] = useState<
-  //   {
-  //     message: string;
-  //   }[]
-  // >([]);
+
   const router = useRouter();
-  // NOTIFICATION
+  // Notification if username or password do not match
   const noMatch = () => {
     toast('Username or password does not match!', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 2300,
     });
   };
-  // HANDLE LOGIN
+  // Handle login
   async function handleLogin() {
     const loginResponse = await fetch('/api/login', {
       method: 'POST',
@@ -113,7 +109,7 @@ export default function Login(props: Props) {
         password: password,
       }),
     });
-    // add notification to onClick
+    // Add notification to onClick
     if (loginResponse.status === 401) {
       noMatch();
       return;
@@ -121,12 +117,6 @@ export default function Login(props: Props) {
     const loginResponseBody: LoginResponseBody = await loginResponse.json();
 
     console.log(loginResponseBody);
-
-    // if there is an error, show the error message
-    // if ('errors' in loginResponseBody) {
-    //   setErrors(loginResponseBody.errors);
-    //   return;
-    // }
 
     const returnTo = router.query.returnTo;
 
@@ -140,12 +130,9 @@ export default function Login(props: Props) {
       await props.refreshUserProfile();
       await router.push(returnTo);
     } else {
-      // redirect user to user profile
-      // if you want to use userProfile with username redirect to /users/username
-      // await router.push(`/users/${loginResponseBody.user.username}`);
+      // Redirect user to user profile
       await router.push(`/users/private-profile`);
       await props.refreshUserProfile();
-      // await router.push(`/`);
     }
   }
   return (
@@ -192,11 +179,6 @@ export default function Login(props: Props) {
             closeButton={false}
           />
         </div>
-        {/* {errors.map((error) => (
-          <div css={errorStyles} key={`error-${error.message}`}>
-            {error.message}
-          </div>
-        ))}{' '} */}
       </main>
     </div>
   );

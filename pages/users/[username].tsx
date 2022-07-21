@@ -57,22 +57,22 @@ export default function UserDetail(props: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // if you want to use username in the URL name this variable properly
+  // If you want to use username in the URL name this variable properly
   const usernameFromUrl = context.query.username;
 
-  // make sure the query param is an string
+  // Make sure the query param is an string
   if (!usernameFromUrl || Array.isArray(usernameFromUrl)) {
     return { props: {} };
   }
 
-  // if you want to use username in the URL call function getUserByUsername and don't use parse int
+  // Get user by username from database
   const user = await getUserByUsername(usernameFromUrl);
 
   if (!user) {
     context.res.statusCode = 404;
     return { props: {} };
   }
-
+  // Return the user
   return {
     props: {
       user: user,

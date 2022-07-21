@@ -1,27 +1,18 @@
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { LoginResponseBody } from '../../types';
 import { createSerializedSessionCookie } from '../../util/cookies';
 import {
   createSession,
   getUserWithPasswordHashByUsername,
 } from '../../util/database';
 
-// declare type of loginResponseBody
-// EITHER an array of error with messages (string) OR an user object with an id (number)
-export type LoginResponseBody =
-  | {
-      errors: {
-        message: string;
-      }[];
-    }
-  | { user: { id: number; username: string } };
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<LoginResponseBody>,
 ) {
-  // check if the request method is POST - we want to POST the logged-in user to the API (sessions)
+  // Check if the request method is POST - we want to POST the logged-in user to the API (sessions)
   // req.body is the user object consisting of username and password
   if (req.method === 'POST') {
     if (
@@ -63,15 +54,11 @@ export default async function handler(
     const userId = userWithPasswordHash.id;
     const username = userWithPasswordHash.username;
 
-    // TODO: create a session for this user
+    // create a session for this user
     const token = crypto.randomBytes(80).toString('base64');
 
     const session = await createSession(token, userId);
     const serializedCookie = await createSerializedSessionCookie(session.token);
-    // // 1. create a secret
-    // const csrfSecret = createCSRFSecret();
-
-    // // 2. update the session create function to receive the secret
 
     // if you want to use username as identifier return the username too
     res

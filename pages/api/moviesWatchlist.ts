@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-// import { MovieResponseBody } from '../../types';
 import {
   addMovie,
   getMovieWatchlist,

@@ -9,7 +9,7 @@ export default function About() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const token = context.req.cookies.sessionToken;
 
-  // if there is a valid token, delete the session and
+  // If there is a valid token, delete the session and return to landing page
 
   if (token) {
     await deleteSession(token);

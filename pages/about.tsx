@@ -20,12 +20,11 @@ export default function About() {
     <div>
       <Head>
         <title>About</title>
-        <meta name="About" content="Get to know us!" />
+        <meta name="About" content="Get to know me and the project!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main css={mainAboutStyles}>
-        {/* <h1>About Us</h1> */}
         <h2>About the project</h2>
         <p>
           As the final project I chose to create a Next.js application, which

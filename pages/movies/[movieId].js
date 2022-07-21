@@ -105,7 +105,7 @@ const mainSinlgeMovieStyles = css`
 `;
 toast.configure();
 export default function Movie({ movie }) {
-  // NOTIFICATIONS
+  // Notifications
   const notLoggedInNotification = () => {
     toast('You need to log in!', {
       position: toast.POSITION.BOTTOM_CENTER,
@@ -124,7 +124,7 @@ export default function Movie({ movie }) {
       autoClose: 2300,
     });
   };
-  // HANDLE ADD TO LIST
+  // Handle add to list
   async function handleAdd() {
     const movieResponse = await fetch('/api/moviesWatchlist', {
       method: 'POST',
@@ -138,7 +138,7 @@ export default function Movie({ movie }) {
         movie_runtime: movie.runtime,
       }),
     });
-    // add notifications to onClick
+    // Add notifications to onClick
     if (movieResponse.status === 401) {
       notLoggedInNotification();
       return;

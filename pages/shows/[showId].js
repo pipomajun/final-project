@@ -130,7 +130,7 @@ const mainSinlgeShowStyles = css`
 `;
 
 export default function Show({ show }) {
-  // NOTIFICATIONS
+  // Notifications
   const notLoggedInNotification = () => {
     toast('You need to log in!', {
       position: toast.POSITION.BOTTOM_CENTER,
@@ -149,6 +149,7 @@ export default function Show({ show }) {
       autoClose: 2300,
     });
   };
+  // Handle add to list
   async function handleAdd() {
     const showResponse = await fetch('/api/showsWatchlist', {
       method: 'POST',
@@ -162,7 +163,7 @@ export default function Show({ show }) {
         show_runtime: show.episode_run_time,
       }),
     });
-    // add notifications to onClick
+    // Add notifications to onClick
     if (showResponse.status === 401) {
       notLoggedInNotification();
       return;

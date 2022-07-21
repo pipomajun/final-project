@@ -1,22 +1,13 @@
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { RegisterResponseBody } from '../../types';
 import { createSerializedSessionCookie } from '../../util/cookies';
 import {
   createSession,
   createUser,
   getUserByUsername,
 } from '../../util/database';
-
-// Declare type of registerResponseBody
-// EITHER an array of error with messages (string) OR an user object with an id (number)
-export type RegisterResponseBody =
-  | {
-      errors: {
-        message: string;
-      }[];
-    }
-  | { user: { id: number } };
 
 export default async function handler(
   req: NextApiRequest,
@@ -45,24 +36,18 @@ export default async function handler(
       return;
     }
     // -------------------------------------------------------------------------------
-    // hash the password - never store the plain password, encrypt it by hashing it
+    // Hash the password - never store the plain password, encrypt it by hashing it
     const passwordHash = await bcrypt.hash(req.body.password, 12);
-    // create the user
+    // Create the user
     const newUser = await createUser(req.body.username, passwordHash);
 
-    // TODO: create a session for this user
+    // Create a session for this user
     const token = crypto.randomBytes(80).toString('base64');
 
-    // 1. create a secret
-    // const csrfSecret = createCSRFSecret();
-
-    // 2. update the session create function to receive the secret
-
-    const session = await createSession(token, newUser.id /**  , csrfSecret*/);
+    const session = await createSession(token, newUser.id);
 
     const serializedCookie = await createSerializedSessionCookie(session.token);
 
-    // if you want to use username as identifier return the username too
     res
       .status(200)
       // Tells the browser to create the cookie for us

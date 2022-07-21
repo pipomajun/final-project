@@ -178,11 +178,6 @@ export default function Shows({
 }
 
 export async function getServerSideProps() {
-  // const [trendingMovies, popularMovies] = await Promise.all([
-  //   fetch(requests.fetchTrendingMovies).then((res) => res.json()),
-  //   fetch(requests.fetchPopularMovies).then((res) => res.json()),
-  // fetch(requests.fetchTopratedMovies).then((res) => res.json()),
-  // ]);
   const trendingShows = await fetch(
     `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.API_KEY}&language=en-US`,
   ).then((res) => res.json());

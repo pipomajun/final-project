@@ -4,6 +4,7 @@ import {
 } from '../../../util/database';
 
 export default async function handler(req, res) {
+  // Remove the movie from the watchlist and the database
   if (req.method === 'DELETE') {
     console.log('MESSAGE', req.query);
     const token = req.cookies.sessionToken;

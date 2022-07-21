@@ -204,6 +204,7 @@ export async function addShow(
   `;
   return camelcaseKeys(addedShow);
 }
+
 // REMOVE SHOW FROM WATCHLIST
 export async function removeShow(showId: number, userId: number) {
   const [removedShow] = await sql<[ShowWatchlist]>`
@@ -217,6 +218,7 @@ export async function removeShow(showId: number, userId: number) {
   `;
   return camelcaseKeys(removedShow);
 }
+
 // GET MOVIE WATCHLIST
 export async function getMovieWatchlist(userId: User['id']) {
   if (!userId) return undefined;
@@ -230,19 +232,7 @@ export async function getMovieWatchlist(userId: User['id']) {
   `;
   return camelcaseKeys(movieWatchlist);
 }
-// GET MOVIE FROM WATCHLIST
-export async function getMovie(movieId: [Movie['id']], userId: [User['id']]) {
-  const [movie] = await sql<[MovieWatchlist]>`
-    SELECT
-      *
-    FROM
-      movies
-    WHERE
-      movie_id = ${movieId} AND
-      user_id = ${userId}
-  `;
-  return camelcaseKeys(movie);
-}
+
 // GET SHOW WATCHLIST
 export async function getShowWatchlist(userId: User['id']) {
   const showWatchlist = await sql`
