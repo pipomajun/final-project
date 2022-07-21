@@ -1,6 +1,6 @@
 import { getWatchlistFromUser } from '../dataStructure';
 
-test('reduces animal favorite foods', () => {
+test("Reduce user's watchlist ", () => {
   const userWatchlist = [
     {
       userId: 1,
