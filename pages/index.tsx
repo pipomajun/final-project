@@ -32,7 +32,7 @@ const mainLandingStyles = css`
   }
 `;
 type Props = {
-  user: User;
+  user: User | undefined;
 };
 export default function Home(props: Props) {
   return (
