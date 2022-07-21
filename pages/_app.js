@@ -13,12 +13,14 @@ function MyApp({ Component, pageProps }) {
     if (!('errors' in profileResponseBody)) {
       setUser(profileResponseBody.user);
     } else {
-      profileResponseBody.errors.forEach((error) => console.log(error.message));
+      profileResponseBody.errors.forEach((error) =>
+        console.error(error.message),
+      );
       setUser(undefined);
     }
   }, []);
   useEffect(() => {
-    refreshUserProfile().catch(() => console.log('Fetch api failed'));
+    refreshUserProfile().catch((error) => console.error(error));
   }, [refreshUserProfile]);
 
   return (

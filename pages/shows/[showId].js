@@ -174,7 +174,6 @@ export default function Show({ show }) {
       addedNotification();
     }
     const showResponseBody = await showResponse.json();
-    console.log(showResponseBody);
     if ('errors' in showResponseBody) {
       return;
     }

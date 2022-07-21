@@ -5,7 +5,6 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { RegisterResponseBody } from '../types';
 
 const mainRegisterStyles = css`
   display: flex;
@@ -123,11 +122,6 @@ export default function Register(props: Props) {
       usernameTaken();
       return;
     }
-
-    const registerResponseBody: RegisterResponseBody =
-      await registerResponse.json();
-
-    console.log(registerResponseBody);
 
     const returnTo = router.query.returnTo;
     if (

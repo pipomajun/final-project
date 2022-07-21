@@ -123,7 +123,6 @@ export default function UserDetail(props: Props) {
 
   // Handle remove movie from list
   async function handleRemoveMovie(movieId: number) {
-    console.log('MOVIE ID', movieId);
     const response = await fetch(`/api/movies/${movieId}`, {
       method: 'DELETE',
       headers: {
@@ -131,7 +130,6 @@ export default function UserDetail(props: Props) {
       },
     });
     const removedMovie = await response.json();
-    console.log(removedMovie);
     const updatedMovieWatchlist = movieWatchlist.filter(
       (movie) => movie.movieId !== removedMovie.movieId,
     );
@@ -139,7 +137,6 @@ export default function UserDetail(props: Props) {
   }
   // Handle remove show from list
   async function handleRemoveShow(showId: number) {
-    console.log('SHOW ID', showId);
     const response = await fetch(`/api/shows/${showId}`, {
       method: 'DELETE',
       headers: {
@@ -147,7 +144,6 @@ export default function UserDetail(props: Props) {
       },
     });
     const removedShow = await response.json();
-    console.log(removedShow);
     const updatedShowWatchlist = showWatchlist.filter(
       (show) => show.showId !== removedShow.showId,
     );
@@ -198,11 +194,7 @@ export default function UserDetail(props: Props) {
                         <p>{movie.movieRuntime} minutes</p>
                         <button
                           onClick={() =>
-                            handleRemoveMovie(movie.movieId).catch(() => {
-                              console.log(
-                                'Removing movie from watchlist failed.',
-                              );
-                            })
+                            handleRemoveMovie(movie.movieId).catch(() => {})
                           }
                         >
                           Remove from watchlist
@@ -232,11 +224,7 @@ export default function UserDetail(props: Props) {
                         <p>~{show.showRuntime} minutes</p>
                         <button
                           onClick={() =>
-                            handleRemoveShow(show.showId).catch(() => {
-                              console.log(
-                                'Removing show from watchlist failed.',
-                              );
-                            })
+                            handleRemoveShow(show.showId).catch(() => {})
                           }
                         >
                           Remove from watchlist
@@ -266,7 +254,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   }
-  console.log('USER', user);
   const movieWatchlist = await getMovieWatchlist(user.id);
   const showWatchlist = await getShowWatchlist(user.id);
 

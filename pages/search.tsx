@@ -217,7 +217,7 @@ export default function Search(props: Props) {
           setMovieResults([]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.error(error));
   };
   const onChangeShow = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -233,7 +233,7 @@ export default function Search(props: Props) {
           setShowResults([]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.error(error));
   };
   return (
     <div>

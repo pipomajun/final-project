@@ -3,7 +3,6 @@ import { getUserByValidSessionToken, removeShow } from '../../../util/database';
 export default async function handler(req, res) {
   // Remove the show from the watchlist and the database
   if (req.method === 'DELETE') {
-    console.log('MESSAGE', req.query);
     const token = req.cookies.sessionToken;
     if (!token) {
       res
@@ -12,7 +11,6 @@ export default async function handler(req, res) {
       return;
     }
     const user = await getUserByValidSessionToken(token);
-    console.log('USER', user);
     if (!user) {
       res.status(400).json({
         errors: [

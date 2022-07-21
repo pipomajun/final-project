@@ -149,7 +149,6 @@ export default function Movie({ movie }) {
       addedNotification();
     }
     const movieResponseBody = await movieResponse.json();
-    console.log(movieResponseBody);
     if ('errors' in movieResponseBody) {
       return;
     }

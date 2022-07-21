@@ -4,9 +4,6 @@ import { toast, ToastContainer } from 'material-react-toastify';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { LoginResponseBody } from '../types';
-
-// import { errorStyles } from './register';
 
 const mainLoginStyles = css`
   display: flex;
@@ -114,9 +111,6 @@ export default function Login(props: Props) {
       noMatch();
       return;
     }
-    const loginResponseBody: LoginResponseBody = await loginResponse.json();
-
-    console.log(loginResponseBody);
 
     const returnTo = router.query.returnTo;
 

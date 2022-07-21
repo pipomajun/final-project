@@ -11,7 +11,6 @@ export default async function handler(
 ) {
   // ADD SHOW TO WATCHLIST
   if (req.method === 'POST') {
-    console.log('REQUEST BODY', req.body);
     const token = req.cookies.sessionToken;
     if (!token) {
       res
@@ -20,7 +19,6 @@ export default async function handler(
       return;
     }
     const user = await getUserByValidSessionToken(token);
-    console.log(user);
     if (!user) {
       res.status(401).json({
         errors: [
@@ -31,8 +29,6 @@ export default async function handler(
     }
     // CHECK TO SEE IF SHOW ID IN REQUEST BODY IS ALREADY IN LIST
     const showWatchlist = await getShowWatchlist(user.id);
-    console.log('A', showWatchlist);
-    console.log('B', req.body.show_id);
     const foundMovie = showWatchlist.find(
       (show) => show.showId === req.body.show_id,
     );
@@ -50,7 +46,6 @@ export default async function handler(
       req.body.show_title,
       req.body.show_runtime,
     );
-    console.log('show added to watchlist:', addedShow);
     return res.status(200).json(addedShow);
   }
 }
