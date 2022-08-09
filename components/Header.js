@@ -73,7 +73,7 @@ export default function Header(props) {
       <div className="navContainerScreen">
         <Link href="/movies">Movies</Link>
         <Link href="/shows">TV Shows</Link>
-        <Link href="/search1">Search</Link>
+        <Link href="/search">Search</Link>
       </div>
       <div className="navContainerProfile">
         {props.user && (

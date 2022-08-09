@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChangeEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Movie, Show } from '../types';
 
 const mainSearchStyles = css`
@@ -21,7 +21,13 @@ const mainSearchStyles = css`
       display: flex;
       flex-direction: column;
       align-items: center;
+      form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+      }
       h2 {
+        text-align: center;
         margin: 0;
         color: #0f1736;
       }
@@ -32,10 +38,26 @@ const mainSearchStyles = css`
         border-radius: 10px;
         font-size: 24px;
         text-align: center;
+        font-family: 'Fredoka';
+      }
+      button {
+        margin-left: 20px;
+        width: 150px;
+        height: 40px;
+        border-radius: 10px;
+        align-self: center;
+        background-color: #0f1736;
+        color: #ccb97c;
+        font-size: 16px;
+        font-family: 'Fredoka';
+      }
+      button:hover {
+        cursor: pointer;
+        color: #f2f2f2;
       }
     }
     .movieSearchResults {
-      height: 100%;
+      height: 80vh;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       align-items: center;
@@ -43,9 +65,6 @@ const mainSearchStyles = css`
       overflow: auto;
     }
     .movieCard {
-      /* display: grid; */
-      /* grid-template-columns: repeat (3, 1fr); */
-      /* grid-auto-rows: auto; */
       width: 250px;
       .imageInfoOverlay {
         position: relative;
@@ -60,7 +79,6 @@ const mainSearchStyles = css`
         display: none;
         padding: 20px;
         overflow: hidden;
-        text-overflow: ellipsis;
         border-top-right-radius: 10px;
         border-top-left-radius: 10px;
         overflow: auto;
@@ -69,13 +87,14 @@ const mainSearchStyles = css`
         top: 0;
         right: 0;
         left: 0;
-        height: 98%;
+        height: 98.5%;
 
         p {
           height: 50%;
           margin: 0;
           color: white;
           font-weight: lighter;
+          font-size: 18px;
         }
       }
       .imageInfoOverlay:hover .movieInfoOverlay {
@@ -111,7 +130,13 @@ const mainSearchStyles = css`
       display: flex;
       flex-direction: column;
       align-items: center;
+      form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+      }
       h2 {
+        text-align: center;
         margin: 0;
         color: #0f1736;
       }
@@ -122,10 +147,26 @@ const mainSearchStyles = css`
         border-radius: 10px;
         font-size: 24px;
         text-align: center;
+        font-family: 'Fredoka';
+      }
+      button {
+        margin-left: 20px;
+        width: 150px;
+        height: 40px;
+        border-radius: 10px;
+        align-self: center;
+        background-color: #0f1736;
+        color: #ccb97c;
+        font-size: 16px;
+        font-family: 'Fredoka';
+      }
+      button:hover {
+        cursor: pointer;
+        color: #f2f2f2;
       }
     }
     .showSearchResults {
-      height: 100%;
+      height: 80vh;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       align-items: center;
@@ -133,9 +174,6 @@ const mainSearchStyles = css`
       overflow: auto;
     }
     .showCard {
-      /* display: grid; */
-      /* grid-template-columns: repeat(3, 1fr); */
-      /* grid-auto-rows: auto; */
       width: 250px;
       .imageInfoOverlay {
         position: relative;
@@ -150,7 +188,6 @@ const mainSearchStyles = css`
         display: none;
         padding: 20px;
         overflow: hidden;
-        text-overflow: ellipsis;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         overflow: auto;
@@ -159,11 +196,12 @@ const mainSearchStyles = css`
         top: 0;
         right: 0;
         left: 0;
-        height: 98%;
+        height: 98.5%;
         p {
           height: 50%;
           color: white;
           font-weight: lighter;
+          font-size: 18px;
         }
       }
       .imageInfoOverlay:hover .showInfoOverlay {
@@ -180,11 +218,10 @@ const mainSearchStyles = css`
         align-items: center;
         justify-content: center;
         p {
+          padding: 5px;
           color: #ccb97c;
           font-size: 20px;
-          padding: 5px;
-
-          margin: 5px;
+          margin: 0;
           text-align: center;
         }
       }
@@ -194,46 +231,45 @@ const mainSearchStyles = css`
     }
   }
 `;
-type Props = {
-  apikey: string;
-};
 
-export default function Search(props: Props) {
+export default function Search() {
   const [movieQuery, setMovieQuery] = useState('');
   const [showQuery, setShowQuery] = useState('');
   const [movieResults, setMovieResults] = useState([]);
   const [showResults, setShowResults] = useState([]);
-  const onChangeMovie = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setMovieQuery(event.target.value);
-    fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${props.apikey}&language=en-US&query=${event.target.value}&page=1&include_adult=false`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.errors) {
-          setMovieResults(data.results);
-        } else {
-          setMovieResults([]);
-        }
-      })
-      .catch((error) => console.error(error));
+
+  // HANDLE MOVIE SEARCH
+  // FETCH THE MOVIE DATA FROM THE API ROUTE
+  const getMovieData = async (query: string) => {
+    const params = {
+      query: query,
+    };
+    const response = await fetch(
+      `/api/moviesFetcher?` + new URLSearchParams(params).toString(),
+    );
+    const data = await response.json();
+    setMovieResults(data.results);
   };
-  const onChangeShow = (event: ChangeEvent<HTMLInputElement>) => {
+  // HANDLE THE SUBMIT BUTTON FOR MOVIE SEARCH
+  const handleMovieSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setShowQuery(event.target.value);
-    fetch(
-      `https://api.themoviedb.org/3/search/tv?api_key=${props.apikey}&language=en-US&query=${event.target.value}&page=1&include_adult=false`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.errors) {
-          setShowResults(data.results);
-        } else {
-          setShowResults([]);
-        }
-      })
-      .catch((error) => console.error(error));
+    getMovieData(movieQuery).catch(() => {});
+  };
+  // HANDLE SHOW SEARCH
+  // FETCH THE SHOW DATA FROM THE API ROUTE
+  const getShowData = async (query: string) => {
+    const params = {
+      query: query,
+    };
+    const response = await fetch(
+      `/api/showsFetcher?` + new URLSearchParams(params).toString(),
+    );
+    const data = await response.json();
+    setShowResults(data.results);
+  };
+  const handleShowSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    getShowData(showQuery).catch(() => {});
   };
   return (
     <div>
@@ -248,15 +284,18 @@ export default function Search(props: Props) {
       <main css={mainSearchStyles}>
         <div className="movieSearchContainer">
           <div className="movieSearchHeader">
-            <h2>Looking for a Movie?</h2>
-            <div className="searchInputWrapper">
+            <form onSubmit={handleMovieSubmit}>
+              <h2>Looking for a Movie?</h2>
               <input
+                required
                 placeholder="Search for a movie..."
                 value={movieQuery}
-                onChange={onChangeMovie}
+                onChange={(event) => setMovieQuery(event.target.value)}
               />
-            </div>
+              <button>Search Movie</button>
+            </form>
           </div>
+
           <div className="movieSearchResults">
             {movieResults.map((movie: Movie) => (
               <Link href={`/movies/${movie.id}`} key={`movie-${movie.id}`}>
@@ -291,14 +330,16 @@ export default function Search(props: Props) {
         </div>
         <div className="showSearchContainer">
           <div className="showSearchHeader">
-            <h2>Looking for a TV Show?</h2>
-            <div className="searchInputWrapper">
+            <form onSubmit={handleShowSubmit}>
+              <h2>Looking for a TV Show?</h2>
               <input
+                required
                 placeholder="Search for a show..."
                 value={showQuery}
-                onChange={onChangeShow}
+                onChange={(event) => setShowQuery(event.target.value)}
               />
-            </div>
+              <button>Search Show</button>
+            </form>
           </div>
           <div className="showSearchResults">
             {showResults.map((show: Show) => (
@@ -337,11 +378,11 @@ export default function Search(props: Props) {
   );
 }
 
-export function getServerSideProps() {
-  const apikey = process.env.API_KEY;
-  return {
-    props: {
-      apikey,
-    },
-  };
-}
+// export function getServerSideProps() {
+//   const apikey = process.env.API_KEY;
+//   return {
+//     props: {
+//       apikey,
+//     },
+//   };
+// }
